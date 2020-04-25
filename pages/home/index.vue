@@ -9,6 +9,13 @@
 						<text class="text-df text-bold">当前课程</text>
 					</view>
 				</view>
+			<view class="cu-list grid current-grid" :class="['col-5','no-border']">
+				<view class="cu-item" >
+					<view :class="['cuIcon-cardboardfill','text-red']">
+					</view>
+					<text>母婴</text>
+				</view>
+			</view>
 			</view>
 			<!-- <view class="nav-list">
 				<navigator hover-class="none" :url="'/pages/basics/' + item.name" class="nav-li" navigateTo :class="'bg-'+item.color"
@@ -37,4 +44,7 @@
 </script>
 
 <style scoped>
+	.current-grid{
+		background-color: #f1f1f1;
+	}
 </style>
