@@ -34,7 +34,7 @@ image {
 }
 
 .radius {
-	border-radius: 6upx;
+	border-radius: 10rpx;
 }
 
 /* ==================
@@ -687,9 +687,9 @@ radio.white.checked .uni-radio-input {
 }
 
 .cu-btn.lg {
-	padding: 0 40upx;
+	padding: 0 40rpx;
 	font-size: 32upx;
-	height: 80upx;
+	height: 80rpx;
 }
 
 .cu-btn.cuIcon.sm {
@@ -1230,7 +1230,7 @@ button.cuIcon.lg {
 .cu-list.menu-avatar>.cu-item .content {
 	position: absolute;
 	left: 146upx;
-	width: calc(100% - 96upx - 60upx - 120upx - 20upx);
+	width: calc(100% - 96upx - 60upx );
 	line-height: 1.6em;
 }
 
@@ -3799,6 +3799,10 @@ scroll-view.cu-steps .cu-item {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+.text-indent{
+	text-indent: 40rpx;
 }
 
 .text-bold {

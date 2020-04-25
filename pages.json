@@ -14,6 +14,15 @@
         //     "path" : "pages/center/center",
         //     "style" : {}
         // }
+        ,{
+            "path" : "pages/home/subject",
+            "style" : {
+				"navigationBarTitleText": "课程"}
+        }
+        ,{
+            "path" : "pages/home/watch",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -43,13 +43,7 @@
 	}
 </script>
 
-<style>
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
+<style scoped>
 
 	.logo {
 		height: 200rpx;
