@@ -1,6 +1,8 @@
 <template>
 	<view>
 		<home v-if="PageCur=='home'"></home>
+		<shop v-if="PageCur=='shop'"></shop>
+		<center v-if="PageCur=='center'"></center>
 		<view class="cu-bar tabbar bg-white shadow foot">
 			<view :class="['action', PageCur=='home'?'text-green':'text-gray']" @click="NavChange" data-cur="home">
 				<view class='cuIcon-cu-image'>

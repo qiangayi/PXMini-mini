@@ -1,7 +1,7 @@
 <template>
 	<view class="bg-white">
 		<scroll-view scroll-y class="page padding-lr">
-			<image src="@/static/banner.png" mode="widthFix" class="response"></image>
+			<image src="@/static/home-banner.png" mode="widthFix" class="response"></image>
 			<view class="solid-bottom">
 				<view class="text-lg padding">
 					<text class="text-black">课程简介</text>

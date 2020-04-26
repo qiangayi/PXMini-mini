@@ -23,6 +23,18 @@
             "path" : "pages/home/watch",
             "style" : {}
         }
+        ,{
+            "path" : "pages/shop/commodity",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/center/exam",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/center/register",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<scroll-view scroll-y class="page">
-			<image src="@/static/banner.png" mode="widthFix" class="response"></image>
+			<image src="@/static/home-banner.png" mode="widthFix" class="response"></image>
 			<view class="padding-lr ">
 				<!-- 当前课程 -->
 				<view class="cu-bar solid-bottom">
@@ -24,19 +24,9 @@
 						<text class="text-df text-bold">所有课程</text>
 					</view>
 				</view>
-				<view class="cu-list menu-avatar">
-					<navigator class="cu-item " url="/pages/home/subject" hover-class="navigator-hover">
-							<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
-							<view class="content">
-								<view class="text-black">
-									<view class="text-cut">莫甘娜</view>
-								</view>
-								<view class="text-gray text-sm flex">
-									<view class="text-cut">凯尔，你被自己的光芒变的盲目你被自己的光芒变的盲目你被自己的光芒变的盲目你被自己的光芒变的盲目你被自己的光芒变的盲目！</view>
-								</view>
-						</view>
-					</navigator>
-				</view>
+				
+				<!-- 课程列表 -->
+				<subList @click="navigate"></subList>
 			</view>
 
 			<!-- <view class="nav-list">
@@ -53,14 +43,24 @@
 </template>
 
 <script>
+	import subList from '../../components/subject/subList.vue'
+	
 	export default {
 		data() {
 			return {
 
 			}
 		},
+		components:{
+			subList
+		},
 		methods: {
-
+			navigate(data){
+				const url = "/pages/home/subject?id=" + data.Id
+				uni.navigateTo({
+					url: url
+				})
+			}
 		}
 	}
 </script>

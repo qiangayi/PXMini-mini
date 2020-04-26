@@ -139,7 +139,7 @@ checkbox::before {
 	color: #ffffff !important;
 	top: 50%;
 	margin-top: -8px;
-	right: 5px;
+	right: 7px;
 	font-size: 32upx;
 	line-height: 16px;
 	pointer-events: none;
