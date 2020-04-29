@@ -35,7 +35,6 @@
 			}
 		},
 		onLoad() {
-			this.$store.dispatch('user/login')
 		},
 		methods: {
 			NavChange: function(e) {

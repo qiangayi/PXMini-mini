@@ -37,14 +37,34 @@ const actions = {
   login({ commit }, userInfo) {
     // const { username, password } = userInfo
     // return new Promise((resolve, reject) => {
-    return  login({ code: 123 }).then(response => {
-		console.log(1)
-        const data = response
-		console.log(data)
-        // resolve()
-      }).catch(error => {
-        // reject(error)
-      })
+		
+		uni.login({
+		  provider: 'weixin',
+		  success: function (loginRes) {
+		    const code = loginRes.code;
+			
+			  return  login({ code }).then(response => {
+					console.log(1)
+			      const data = response
+					console.log(data)
+			      // resolve()
+			    }).catch(error => {
+			      // reject(error)
+			    })
+		  }
+		});
+		
+		
+  //   return  login({ code: 123 }).then(response => {
+		// console.log(1)
+  //       const data = response
+		// console.log(data)
+  //       // resolve()
+  //     }).catch(error => {
+  //       // reject(error)
+  //     })
+	  
+	  
     // })
   },
 

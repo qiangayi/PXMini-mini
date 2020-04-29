@@ -35,8 +35,8 @@ console.log(`url:${urlConfig + url}`)
 		dataType: 'json',
 		header: headers
 	}).then(res => {
-		console.log(res)
-		if (res[1].data.status && res[1].data.code == 200) {
+		if (res[1].statusCode = 200) {
+			console.log("suc")
 			return res[1]
 		} else {
 			throw res[1].data
