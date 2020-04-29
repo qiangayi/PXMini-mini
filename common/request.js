@@ -1,9 +1,13 @@
 // 采用网友提供的request封装
 // https://www.cnblogs.com/gqx-html/p/10967570.html
 import urlConfig from '@/base.js'
+import {
+	getToken
+} from "@/common/auth.js"
 
 const request = {}
 const headers = {}
+const api = 'api'
 
 request.globalRequest = (url, method, data, power) => {
 	/*     权限判断 因为有的接口请求头可能需要添加的参数不一样，所以这里做了区分
@@ -21,22 +25,22 @@ request.globalRequest = (url, method, data, power) => {
 			responseType = 'blob'
 			break;
 		default:
-			// headers['Authorization'] = `Bearer ${
-   //              this.$store.getters.userInfo
-   //          }`
+			// headers['Authorization'] = `Bearer ${this.$store.getters.userInfo}`
 			// headers['TENANT-ID'] = this.$store.getters.userInfo.tenant_id
 			break;
 	}
-console.log(`url:${urlConfig + url}`)
+	// console.log(store)
+	console.log(getToken())
+	headers['X-Token'] = getToken()
+	// console.log(`url:${urlConfig + url}`)
 	return uni.request({
-		url: urlConfig + url,
+		url: urlConfig + api + url,
 		method,
 		data: data,
 		dataType: 'json',
 		header: headers
 	}).then(res => {
 		if (res[1].statusCode = 200) {
-			console.log("suc")
 			return res[1]
 		} else {
 			throw res[1].data

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store'
+import baseUrl from '@/base.js'
 
 //注册组件
 import home from './pages/home/'
@@ -11,6 +12,12 @@ import center from './pages/center'
 Vue.component('center', center)
 
 Vue.config.productionTip = false
+console.log(baseUrl)
+//注册全局变量，获取imgUrl地址
+Vue.prototype.golbal_getImgUrl = function(fileName) {
+	const url = `${baseUrl}/Upload/img/${fileName}`
+	return url
+}
 
 
 App.mpType = 'app'

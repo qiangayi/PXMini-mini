@@ -1,5 +1,4 @@
 let url_config = ""
-const api = "api"
 
 
 if(process.env.NODE_ENV === 'development'){
@@ -9,6 +8,6 @@ if(process.env.NODE_ENV === 'development'){
     // 生产环境
     url_config = 'https://*****.com/'
 }
-url_config = url_config + api
+url_config = url_config
 
 export default url_config

@@ -6,17 +6,20 @@
 				<!-- 当前课程 -->
 				<view class="cu-bar solid-bottom">
 					<view class="action">
+						<!-- <view class="cu-avatar radius lg" :style="'background-image:url(' + item.Url+');'"></view> -->
 						<text class="cuIcon-titles text-green"></text>
 						<text class="text-df text-bold">当前课程</text>
 					</view>
 				</view>
-				<view class="cu-list grid current-grid" :class="['col-5','no-border']">
+				<view class="cu-list grid current-grid" v-if="subjectName != ''" :class="['col-5','no-border']">
 					<view class="cu-item">
-						<view :class="['cuIcon-cardboardfill','text-red']">
-						</view>
+						<image class='cu-avatar lg' :mode="item.mode" :src="golbal_getImgUrl('2687441185311555586.png')" ></image>
 						<text>母婴</text>
 					</view>
 				</view>
+					<view class="text-df text-gray text-center padding-tb-sm" v-else>
+						<text>当前没有正在学习的课程</text>
+					</view>
 				<!-- 所有课程 -->
 				<view class="cu-bar solid-bottom">
 					<view class="action">
@@ -26,17 +29,9 @@
 				</view>
 				
 				<!-- 课程列表 -->
-				<subList @click="navigate"></subList>
+				<subList @click="handleSubClick"></subList>
 			</view>
-
-			<!-- <view class="nav-list">
-				<navigator hover-class="none" :url="'/pages/basics/' + item.name" class="nav-li" navigateTo :class="'bg-'+item.color"
-				 :style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]" v-for="(item,index) in elements" :key="index">
-					<view class="nav-title">{{item.title}}</view>
-					<view class="nav-name">{{item.name}}</view>
-					<text :class="'cuIcon-' + item.cuIcon"></text>
-				</navigator>
-			</view> -->
+			
 			<view class="cu-tabbar-height"></view>
 		</scroll-view>
 	</view>
@@ -44,6 +39,7 @@
 
 <script>
 	import subList from '../../components/subject/subList.vue'
+	import { mapGetters, mapState } from 'vuex'; 
 	
 	export default {
 		data() {
@@ -54,12 +50,46 @@
 		components:{
 			subList
 		},
+		computed:{
+			...mapGetters([
+				'userName',
+			      'subjectName',
+			      'subjectPic'
+			    ])
+		},
 		methods: {
+			handleSubClick(){
+				this.validRegister()
+			},
 			navigate(data){
 				const url = "/pages/home/subject?id=" + data.Id
 				uni.navigateTo({
 					url: url
 				})
+			},
+			navigateToRegister(){
+				const url = "/pages/center/register"
+				uni.navigateTo({
+					url: url
+				})
+			},
+			validRegister(){
+				const _this = this
+				console.log(this.userName)
+				if(this.userName ==''){
+					uni.showModal({
+					    title: '温馨提示',
+					    content: '用户未注册，是否进行注册？',
+					    success: function (res) {
+					        if (res.confirm) {
+								_this.navigateToRegister()
+					            console.log('用户点击确定');
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					});
+				}
 			}
 		}
 	}
@@ -69,7 +99,10 @@
 	.current-grid {
 		background-color: #f1f1f1;
 	}
+.cu-list.grid>.cu-item{
+	align-items: center;
 
+}
 	.cu-list.menu-avatar>.cu-item .text-gray {
 		width: 100%
 	}
