@@ -30,7 +30,7 @@ request.globalRequest = (url, method, data, power) => {
 			break;
 	}
 	// console.log(store)
-	console.log(getToken())
+	// console.log(getToken())
 	headers['X-Token'] = getToken()
 	// console.log(`url:${urlConfig + url}`)
 	return uni.request({
@@ -40,13 +40,19 @@ request.globalRequest = (url, method, data, power) => {
 		dataType: 'json',
 		header: headers
 	}).then(res => {
+		if(res.length == 1){
+				uni.showToast({
+					title: '连接服务器错误！',
+					icon: 'none'
+				});
+				throw res[0]
+		}
 		if (res[1].statusCode = 200) {
 			return res[1]
 		} else {
 			throw res[1].data
 		}
 	}).catch(parmas => {
-
 		switch (parmas.code) {
 			case 401:
 				uni.clearStorageSync()

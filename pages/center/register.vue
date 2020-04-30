@@ -12,8 +12,14 @@
 			</view>
 			<view class="cu-form-group">
 				<view class="title">性别</view>
-				<switch class='switch-sex' data-field='Gender' @change="handleInputChange" :class="formData.Gender?'checked':''"
-				 :checked="formData.Gender?true:false"></switch>
+					<radio-group class="block" data-field='Gender' @change="handleInputChange">
+						<label class="padding-lr-xs">
+							<radio class='padding-lr-xs' :class="formData.Gender==0?'checked':''" :checked="formData.Gender==0?true:false" :value="0"></radio>男
+						</label>
+						<label class="padding-lr-xs">
+							<radio class='padding-lr-xs' :class="formData.Gender==1?'checked':''" :checked="formData.Gender==1?true:false" :value="1"></radio>女
+						</label>
+					</radio-group>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">手机号码</view>
@@ -22,8 +28,14 @@
 			</view>
 			<view class="cu-form-group">
 				<view class="title">是否农村户口</view>
-				<switch class='switch-sex' data-field='IsRural' @change="handleInputChange" :class="formData.IsRural?'checked':''"
-				 :checked="formData.IsRural?true:false"></switch>
+					<radio-group class="block" data-field='IsRural' @change="handleInputChange">
+						<label class="padding-lr-xs">
+							<radio class='padding-lr-xs' :class="formData.IsRural==0?'checked':''" :checked="formData.IsRural==0?true:false" :value="0"></radio>否
+						</label>
+						<label class="padding-lr-xs">
+							<radio class='padding-lr-xs' :class="formData.IsRural==1?'checked':''" :checked="formData.IsRural==1?true:false" :value="1"></radio>是
+						</label>
+					</radio-group>
 			</view>
 			<!-- <view class="cu-form-group">
 				<view class="title">验证码</view>
@@ -36,7 +48,7 @@
 
 			<view class="box margin-tb">
 				<view class="cu-bar btn-group ">
-					<button class="cu-btn bg-green shadow-blur lg" @tap="handleSubmit">注册</button>
+					<button class="cu-btn bg-green shadow-blur lg" :disabled="loading" :loading="loading" @tap="handleSubmit">注册</button>
 				</view>
 			</view>
 		</form>
@@ -46,17 +58,23 @@
 <script>
 	import uploadImg from "@/components/register/uploadImg.vue"
 	import {register} from "@/api/user.js"
+import { mapActions } from 'vuex';
 	export default {
 		data() {
 			return {
 				SwitchC: true,
-				formData: {}
+				formData: {
+					Gender: 0,
+					IsRural: 0
+				},
+				loading: false
 			}
 		},
 		components: {
 			uploadImg
 		},
 		methods: {
+			...mapActions([{initUserInfo:'user/initUserInfo'}]),
 			handleInputChange(e) {
 				const _this = this
 				setTimeout(function() {
@@ -70,11 +88,25 @@
 				}
 			},
 			handleSubmit() {
-				// console.log(this.valid())
-				// console.log(this.formData)
 				if(this.valid()){
+					this.loading = true
 					register(this.formData).then(res => {
-						console.log(res)
+						this.loading = false
+						res = res.data
+						if(res.Success){
+							//初始化用户信息
+							this.$store.dispatch('user/initUserInfo', res.Data);
+						}
+						uni.showToast({
+							title: res.Msg,
+							success: function(){
+								setTimeout(() => {
+								uni.redirectTo({
+									url: '/pages/index/index'
+								});
+								}, 800)
+							}
+						})
 					})
 				}
 			},

@@ -9,7 +9,6 @@ export function setToken(token) {
     key: TokenKey,
     data: token,
     success: function () {
-        console.log('success');
     }
 });
 }

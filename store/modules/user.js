@@ -68,12 +68,13 @@ const actions = {
 				return login({
 					code
 				}).then(response => {
+						console.log("login success")
 					const res = response.data
 					if (res.Success) {
-						const {token} = res.Data
+						const data = res.Data
+						const {token} = data
 						setToken(token)
-						console.log(token)
-						dispatch('initUserInfo', res.Data)
+						dispatch('initUserInfo', data)
 					}
 				}).catch(error => {})
 			}
@@ -82,6 +83,7 @@ const actions = {
 	initUserInfo({
 		commit
 	}, data) {
+		// console.log("registered", data)
 		const {
 			registered,
 			name,
@@ -92,7 +94,8 @@ const actions = {
 			subjectName,
 			subjectPic,
 			score
-		} = Data
+		} = data
+		// console.log("registered", registered)
 		//判断是否为注册用户
 		if (registered) {
 			//初始化用户信息
@@ -100,12 +103,12 @@ const actions = {
 			//type: 0： 班级学员,1销售,2普通学员
 			commit("SET_TYPE", type)
 			if (type == 1) {
-				commit("SET_CLASEID", claseId)
-				commit("SET_CLASENAME", subjectName)
+				commit("SET_CLASEID", claseId ? 0 : claseId)
+				commit("SET_CLASENAME", claseName ? '': claseName)
 			}
-			commit("SET_SUBJECTID", subjectId)
-			commit("SET_SUBJECTNAME", subjectName)
-			commit("SET_SUBJECTPIC", subjectPic)
+			commit("SET_SUBJECTID", subjectId ? 0 : subjectId)
+			commit("SET_SUBJECTNAME", subjectName ? '': subjectName)
+			commit("SET_SUBJECTPIC", subjectPic? '' : subjectPic)
 			commit("SET_SCORE", score)
 		}
 	},
