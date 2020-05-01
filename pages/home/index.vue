@@ -27,7 +27,7 @@
 				</view>
 
 				<!-- 课程列表 -->
-				<subList @click="handleSubClick"></subList>
+				<subList :list="subData" @click="handleSubClick"></subList>
 			</view>
 
 			<view class="cu-tabbar-height"></view>
@@ -42,7 +42,9 @@ import {getRange} from '@/api/subject.js'
 
 export default {
 	data() {
-		return {};
+		return {
+			subData: []
+		};
 	},
 	components: {
 		subList

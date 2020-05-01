@@ -1,39 +1,27 @@
 <template>
 	<view class="bg-white">
 		<scroll-view scroll-y class="page padding-lr">
-			<image src="@/static/home-banner.png" mode="widthFix" class="response"></image>
+			<image :src="subPicUrl" mode="widthFix" class="response"></image>
 			<view class="solid-bottom">
 				<view class="text-lg padding">
-					<text class="text-black">课程简介</text>
+					<text class="text-black">{{info.Name}}</text>
 				</view>
 				<view class=" text-df text-indent">
-					<text class="text-gray">我于杀戮之中绽放 亦如黎明中的花朵我于杀戮之中绽放 亦如黎明中的花朵我于杀戮之中绽放 亦如黎明中的花朵我于杀戮之中绽放 亦如黎明中的花朵我于杀戮之中绽放
-						亦如黎明中的花朵我于杀戮之中绽放 亦如黎明中的花朵我于杀戮之中绽放 亦如黎明中的花朵我于杀戮之中绽放 亦如黎明中的花朵</text>
+					<text class="text-gray">{{info.Explanation}}</text>
 				</view>
 				<view class="flex solid-bottom padding justify-center">
-					<button class="cu-btn bg-blue lg shadow">我要报名</button>
+					<button class="cu-btn bg-blue lg shadow">开始学习</button>
 				</view>
 			</view>
+
+			<!-- <text class="text-black">可跳转</text> -->
 			<view class="padding-top-xs">
+
 				<view class="cu-list menu" :class="sm-border">
-					<view  v-for="(item,index) in videoList" :key="index" class=" video-menu cu-item margin-xs">
+					<navigator class="video-menu cu-item margin-xs" v-for="(item,index) in info.Children" :data-id="item.Id" :key="index"
+					 :url="'/pages/home/watch?id='+item.Id" hover-class="navigator-hover">
 						<view class="content">
-							<text class="text-grey">{{item.name}}</text>
-						</view>
-						<view class="action">
-							<text class="cuIcon-playfill"></text>
-						</view>
-					</view>
-				</view>
-			</view>
-			
-				<text class="text-black">可跳转</text>
-			<view class="padding-top-xs">
-				
-				<view class="cu-list menu" :class="sm-border">
-					<navigator class="video-menu cu-item margin-xs" v-for="(item,index) in videoList" :key="index" url="/pages/home/watch" hover-class="navigator-hover">
-						<view class="content">
-							<text class="text-grey">{{item.name}}</text>
+							<text class="text-grey">{{item.Title}}</text>
 						</view>
 						<view class="action">
 							<text class="cuIcon-playfill"></text>
@@ -46,19 +34,43 @@
 </template>
 
 <script>
+	import {
+		getInfo
+	} from "@/api/subject.js"
 	export default {
 		data() {
 			return {
-				videoList: [
-					{name: "视频1"},
-					{name: "视频2"},
-					{name: "视频3"},
-					{name: "视频4"},
-					{name: "视频5"}
-				]
+				id: 0,
+				subPicUrl: '',
+				info: {
+					Id: 0,
+					Name: "",
+					Icon: "",
+					Explanation: "",
+					Children: []
+				}
 			}
 		},
-		methods: {}
+		onLoad(option) {
+			this.id = option.id
+			this.initInfo()
+		},
+		methods: {
+			initInfo() {
+				const id = this.id
+				getInfo({
+					id
+				}).then(res => {
+					res = res.data
+					if (res.Success) {
+						this.info = res.Data
+						this.subPicUrl = this.golbal_getImgUrl(this.info.Icon)
+						console.log(this.subPicUrl)
+					}
+				})
+			}
+		},
+
 	}
 </script>
 

@@ -1,10 +1,12 @@
 <template>
 	<view>
 		<scroll-view scroll-y class="page padding-lr">
-			<video id="myVideo" src="https://www.nwedo.net/nsp/StreamingAssets/Movie/1.mp4" :show-play-btn="false" :show-center-play-btn="false" :enable-progress-gesture="false" :controls="false"></video>
+			<video id="myVideo" :src="videoSrc" :show-play-btn="false" :show-center-play-btn="false" :enable-progress-gesture="false" :controls="false"></video>
 
 			<view class="margin-tb-sm text-center">
 				<button class="cu-btn round line-blue"  @tap="playVideo()">播放</button>
+				<button class="cu-btn round line-blue" @tap="handleRapidPlay(true)">倍速播放</button>
+				<button class="cu-btn round line-blue" @tap="handleRapidPlay(false)">普通播放</button>
 			</view>
 			<!-- https://www.nwedo.net/nsp/StreamingAssets/Movie/1.mp4 -->
 			<view class="padding-top-xs">
@@ -29,11 +31,16 @@
 <script>
 	import courseware from "@/components/watch/courseware.vue"
 	import askList from "@/components/watch/askList.vue"
+	import {getVideo} from "@/api/subject.js"
+	import { mapGetters, mapState } from 'vuex';
 
 	export default {
 		data() {
 			return {
+				id: 0,
+				videoSrc: 0,
 				TabCur: 0,
+				rapidPlay: false,
 				tabData: [{
 						name: '课件'
 					},
@@ -44,16 +51,40 @@
 				videoContext: ""
 			}
 		},
+		computed:{
+			...mapGetters(["rapidAuth"])
+		},
 		components: {
 			courseware,
 			question: askList
 		},
-		onReady: function(res) {
+		onLoad: function(option) {
+			console.log(this.rapidAuth)
+			this.id = option.id
+			this.initInfo()
 			this.videoContext = uni.createVideoContext('myVideo')
 		},
 		methods: {
+			initInfo(){
+				const id = this.id
+				getVideo({id}).then(res => {
+					res = res.data
+					if(res.Success){
+						this.videoSrc = this.golbal_getVideoUrl(res.Data.VideoName)
+						// this.videoContext.play()
+					}
+				})
+			},
 			playVideo() {
 				this.videoContext.play()
+			},
+			handleRapidPlay(rapid){
+				if(rapid){
+					this.videoContext.playbackRate(1.5)
+				}else{
+					this.videoContext.playbackRate(1)
+				}
+				this.rapidPlay = !rapid
 			},
 			tabSelect(e) {
 				console.log(this.TabCur == 1)
