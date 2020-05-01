@@ -12,8 +12,8 @@
 					</view>
 				</view>
 				<view class="cu-list grid current-grid" v-if="subjectName != ''" :class="['col-5', 'no-border']">
-					<view class="cu-item">
-						<image class="cu-avatar lg" :mode="item.mode" :src="golbal_getImgUrl('2687441185311555586.png')"></image>
+					<view class="cu-item" @tap="handleSubClick({Id: subjectId})">
+						<image class="cu-avatar lg" :mode="item.mode" :src="golbal_getImgUrl(subjectPic)"></image>
 						<text>母婴</text>
 					</view>
 				</view>
@@ -49,28 +49,55 @@ export default {
 	components: {
 		subList
 	},
+	watch:{
+		subjectId(val){
+			console.log("subjectid", val)
+		}
+	},
 	computed: {
-		...mapGetters(['token', 'userName', 'subjectName', 'subjectPic','rapidAuth', 'archiveAuth'])
+		...mapGetters(['token', 'userName', 'subjectId', 'subjectName', 'subjectPic','rapidAuth', 'archiveAuth'])
 	},
 	onReady(){
-		this.initSubject()
+		// this.initSubject()
+			// console.log("subjectName:", this.subjectName)
+				// console.log(this.page.route)
 		setTimeout(() => {
-			console.log("rapidAuth: ", this.rapidAuth)
-			console.log("archiveAuth: ", this.archiveAuth)
-		}, 3000)
+			// console.log("rapidAuth: ", this.rapidAuth)
+			// console.log("archiveAuth: ", this.archiveAuth)
+			// console.log("subjectName:", this.subjectName)
+			// console.log("subjectId:", this.subjectId)
+		this.initSubject()
+		}, 1000)
 	},
 	methods: {
 		initSubject(){
+			this.subData = []
 			getRange({name: ''}).then(res => {
 				res = res.data
 				if(res.Success){
+					// if(res.Data.length > 0){
+					// 	res.Data.map(o => {
+					// 		console.log("id:", o.Id, "  subid:", this.subjectId)
+					// 		if(o.Id != this.subjectId){
+					// 			this.subData.push(o)
+					// 		}
+					// 	})
+					// }
 					this.subData = res.Data
 				}
 			})
 		},
 		handleSubClick(data) {
 			if(this.validRegister()){
-				this.navigate(data)
+				if(this.subjectId == data.Id){
+					this.navigate(data)
+				}else{
+					uni.showToast({
+					    title: '已有正在学习的课程，请完成当前课程后再学习',
+						icon: "none",
+					    duration: 1000
+					});
+				}
 			}
 		},
 		navigate(data) {

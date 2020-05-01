@@ -64,11 +64,12 @@ const actions = {
 		uni.login({
 			provider: 'weixin',
 			success: function(loginRes) {
-				const code = loginRes.code;
+				const code = loginRes.code; 
 				return login({
 					code
 				}).then(response => {
-					console.log("login success")
+				uni.hideLoading();
+					// console.log("login success")
 					const res = response.data
 					if (res.Success) {
 						const data = res.Data
@@ -111,11 +112,11 @@ const actions = {
 				commit("SET_CLASEID", claseId ? 0 : claseId)
 				commit("SET_CLASENAME", claseName ? '' : claseName)
 			}
-			commit("SET_SUBJECTID", subjectId ? 0 : subjectId)
-			commit("SET_SUBJECTNAME", subjectName ? '' : subjectName)
-			commit("SET_SUBJECTPIC", subjectPic ? '' : subjectPic)
+			commit("SET_SUBJECTID", subjectId)
+			commit("SET_SUBJECTNAME", subjectName)
+			commit("SET_SUBJECTPIC", subjectPic)
 			commit("SET_SCORE", score)
-
+console.log(subjectPic)
 			//用户权限
 			dispatch("auth/setRapidAuth", RapidAuth == 1, {
 				root: true
@@ -125,38 +126,13 @@ const actions = {
 			})
 		}
 	},
-	// get user info
-	getInfo({
-		commit,
-		state
-	}) {
-		return new Promise((resolve, reject) => {
-			getInfo().then(response => {
-				if (response.status && response.status === 500) {
-					resolve()
-					return
-				}
-				const {
-					Data: data
-				} = response
-
-				if (!data) {
-					reject('Verification failed, please Login again.')
-				}
-
-				const {
-					Name,
-					avatar
-				} = data
-
-				commit('SET_NAME', Name)
-				commit('SET_AVATAR', avatar)
-				resolve(data)
-			}).catch(error => {
-				reject(error)
-			})
-		})
-	},
+	initSubjectInfo({commit}, data){		
+		console.log(data)
+		const {Id, Name, Icon} = data
+			commit("SET_SUBJECTID", Id )
+			commit("SET_SUBJECTNAME", Name)
+			commit("SET_SUBJECTPIC", Icon)
+	}
 }
 
 export default {

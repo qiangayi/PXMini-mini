@@ -1,10 +1,10 @@
 <script>
 export default {
 	onLaunch: function() {
-		// uni.showLoading({
-		// 	title: '加载中',
-		// 	mask: true
-		// });
+		uni.showLoading({
+			title: '加载中',
+			mask: true
+		});
 		this.$store.dispatch('user/login');
 		console.log('App Launch');
 	},

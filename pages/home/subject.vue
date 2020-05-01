@@ -9,14 +9,13 @@
 				<view class=" text-df text-indent">
 					<text class="text-gray">{{info.Explanation}}</text>
 				</view>
-				<view class="flex solid-bottom padding justify-center">
-					<button class="cu-btn bg-blue lg shadow">开始学习</button>
+				<view class="flex solid-bottom padding justify-center" v-if="subjectId == 0">
+					<button class="cu-btn bg-blue lg shadow" :data-id="id" @tap="handleStudyClick">开始学习</button>
 				</view>
 			</view>
 
 			<!-- <text class="text-black">可跳转</text> -->
 			<view class="padding-top-xs">
-
 				<view class="cu-list menu" :class="sm-border">
 					<navigator class="video-menu cu-item margin-xs" v-for="(item,index) in info.Children" :data-id="item.Id" :key="index"
 					 :url="'/pages/home/watch?id='+item.Id" hover-class="navigator-hover">
@@ -35,8 +34,15 @@
 
 <script>
 	import {
-		getInfo
+		mapGetters,
+		mapState
+	} from 'vuex';
+	import {
+		getInfo,
 	} from "@/api/subject.js"
+	import {
+		setSub
+	} from "@/api/user.js"
 	export default {
 		data() {
 			return {
@@ -51,7 +57,11 @@
 				}
 			}
 		},
+		computed: {
+			...mapGetters(['subjectId'])
+		},
 		onLoad(option) {
+			console.log(getCurrentPages())
 			this.id = option.id
 			this.initInfo()
 		},
@@ -66,6 +76,25 @@
 						this.info = res.Data
 						this.subPicUrl = this.golbal_getImgUrl(this.info.Icon)
 						console.log(this.subPicUrl)
+					}
+				})
+			},
+			handleStudyClick(e) {
+				uni.showLoading({
+					title: '加载中'
+				});
+				const id = this.id
+				setSub({
+					id
+				}).then(res => {
+					uni.hideLoading();
+					res = res.data
+					if (res.Success) {
+						uni.showToast({
+							title: res.Msg,
+							duration: 1000
+						});
+						this.$store.dispatch("user/initSubjectInfo", res.Data)
 					}
 				})
 			}

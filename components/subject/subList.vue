@@ -1,6 +1,6 @@
 <template>
 	<view class="cu-list menu-avatar ">
-			<view class="cu-item " url="/pages/home/subject" hover-class="navigator-hover" v-for="item in list" :key="item.Id">
+			<view class="cu-item " url="/pages/home/subject" hover-class="navigator-hover" v-if="item.Id != subjectId" v-for="item in list" :key="item.Id">
 				<view class="cu-avatar radius lg" :style="'background-image:url(' + golbal_getImgUrl(item.Icon)+');'"></view>
 				<view class="content">
 					<view class="text-black">
@@ -10,31 +10,39 @@
 						<view class="text-cut">{{item.Explanation}}</view>
 					</view>
 				</view>
-				
+
 				<view class="action" @tap="handleClick(item)">
 					<button class="cu-btn text-green">开始学习
-					<text class="lg text-grey cuIcon-playfill"></text></button>
+						<text class="lg text-grey cuIcon-playfill"></text></button>
 				</view>
 			</view>
-	</view>
+		</view>
 </template>
 
 <script>
+	import {
+		mapGetters,
+		mapState
+	} from 'vuex';
 	export default {
 		name: "courserware",
-		props:{
+		props: {
 			list: {
 				type: Array,
-				default: []
+				default: () => {
+					return []
+				}
 			}
 		},
 		data() {
-			return {
-			}
+			return {}
 		},
-		methods:{
-			handleClick(item){
-                this.$emit("click",item);
+		computed: {
+			...mapGetters(['subjectId'])
+		},
+		methods: {
+			handleClick(item) {
+				this.$emit("click", item);
 			}
 		}
 	}
@@ -44,19 +52,25 @@
 	.cu-list.menu-avatar>.cu-item .text-gray {
 		width: 100%
 	}
-	.cu-list.menu-avatar>.cu-item .action{
+
+	.cu-list.menu-avatar>.cu-item .action {
 		width: 200rpx
 	}
 
 	.cu-list.menu-avatar>.cu-item .flex .text-cut {
 		max-width: 100%;
 	}
-	.cu-list.menu-avatar>.cu-item .content{
+
+	.cu-list.menu-avatar>.cu-item .content {
 		width: calc(100% - 96rpx - 60rpx - 200rpx);
 
 	}
 
 	.cu-item {
 		margin-top: 10rpx;
+	}
+	
+	.dom-hide{
+		display: none;
 	}
 </style>

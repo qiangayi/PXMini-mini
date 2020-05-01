@@ -8,3 +8,11 @@ export function login(data){
 export function register(data){
 	return request("/stu/Regeist", "POST", data)
 }
+
+export function setSub(data){
+	return request("/stu/SetSubject", "GET", data)
+}
+
+export function recordWatch(data){
+	return request("/video/RecordWatch", "GET", data)
+}
