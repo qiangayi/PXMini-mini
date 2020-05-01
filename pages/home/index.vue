@@ -50,10 +50,14 @@ export default {
 		subList
 	},
 	computed: {
-		...mapGetters(['token', 'userName', 'subjectName', 'subjectPic'])
+		...mapGetters(['token', 'userName', 'subjectName', 'subjectPic','rapidAuth', 'archiveAuth'])
 	},
 	onReady(){
 		this.initSubject()
+		setTimeout(() => {
+			console.log("rapidAuth: ", this.rapidAuth)
+			console.log("archiveAuth: ", this.archiveAuth)
+		}, 3000)
 	},
 	methods: {
 		initSubject(){

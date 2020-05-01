@@ -68,11 +68,13 @@ const actions = {
 				return login({
 					code
 				}).then(response => {
-						console.log("login success")
+					console.log("login success")
 					const res = response.data
 					if (res.Success) {
 						const data = res.Data
-						const {token} = data
+						const {
+							token
+						} = data
 						setToken(token)
 						dispatch('initUserInfo', data)
 					}
@@ -81,7 +83,8 @@ const actions = {
 		});
 	},
 	initUserInfo({
-		commit
+		commit,
+		dispatch
 	}, data) {
 		// console.log("registered", data)
 		const {
@@ -93,7 +96,9 @@ const actions = {
 			subjectId,
 			subjectName,
 			subjectPic,
-			score
+			score,
+			ArchiveAuth,
+			RapidAuth
 		} = data
 		// console.log("registered", registered)
 		//判断是否为注册用户
@@ -104,12 +109,20 @@ const actions = {
 			commit("SET_TYPE", type)
 			if (type == 1) {
 				commit("SET_CLASEID", claseId ? 0 : claseId)
-				commit("SET_CLASENAME", claseName ? '': claseName)
+				commit("SET_CLASENAME", claseName ? '' : claseName)
 			}
 			commit("SET_SUBJECTID", subjectId ? 0 : subjectId)
-			commit("SET_SUBJECTNAME", subjectName ? '': subjectName)
-			commit("SET_SUBJECTPIC", subjectPic? '' : subjectPic)
+			commit("SET_SUBJECTNAME", subjectName ? '' : subjectName)
+			commit("SET_SUBJECTPIC", subjectPic ? '' : subjectPic)
 			commit("SET_SCORE", score)
+
+			//用户权限
+			dispatch("auth/setRapidAuth", RapidAuth == 1, {
+				root: true
+			})
+			dispatch("auth/setArchiveAuth", ArchiveAuth == 1, {
+				root: true
+			})
 		}
 	},
 	// get user info

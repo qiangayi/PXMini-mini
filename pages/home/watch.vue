@@ -5,8 +5,8 @@
 
 			<view class="margin-tb-sm text-center">
 				<button class="cu-btn round line-blue"  @tap="playVideo()">播放</button>
-				<button class="cu-btn round line-blue" @tap="handleRapidPlay(true)">倍速播放</button>
-				<button class="cu-btn round line-blue" @tap="handleRapidPlay(false)">普通播放</button>
+				<button class="cu-btn round line-blue" if="rapidAuth" @tap="handleRapidPlay(true)">倍速播放</button>
+				<button class="cu-btn round line-blue" if="rapidAuth" @tap="handleRapidPlay(false)">普通播放</button>
 			</view>
 			<!-- https://www.nwedo.net/nsp/StreamingAssets/Movie/1.mp4 -->
 			<view class="padding-top-xs">
@@ -52,7 +52,7 @@
 			}
 		},
 		computed:{
-			...mapGetters(["rapidAuth"])
+			...mapGetters(["rapidAuth", "archiveAuth"])
 		},
 		components: {
 			courseware,
