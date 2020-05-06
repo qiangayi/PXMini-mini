@@ -36,121 +36,130 @@
 </template>
 
 <script>
-import subList from '../../components/subject/subList.vue';
-import { mapGetters, mapState } from 'vuex';
-import {getRange} from '@/api/subject.js'
+	import subList from '../../components/subject/subList.vue';
+	import {
+		mapGetters,
+		mapState
+	} from 'vuex';
+	import {
+		getRange
+	} from '@/api/subject.js'
 
-export default {
-	data() {
-		return {
-			subData: []
-		};
-	},
-	components: {
-		subList
-	},
-	watch:{
-		subjectId(val){
-			console.log("subjectid", val)
-		}
-	},
-	computed: {
-		...mapGetters(['token', 'userName', 'subjectId', 'subjectName', 'subjectPic','rapidAuth', 'archiveAuth'])
-	},
-	onReady(){
-		// this.initSubject()
-			// console.log("subjectName:", this.subjectName)
-				// console.log(this.page.route)
-		setTimeout(() => {
-			// console.log("rapidAuth: ", this.rapidAuth)
-			// console.log("archiveAuth: ", this.archiveAuth)
-			// console.log("subjectName:", this.subjectName)
-			// console.log("subjectId:", this.subjectId)
-		this.initSubject()
-		}, 1000)
-	},
-	methods: {
-		initSubject(){
-			this.subData = []
-			getRange({name: ''}).then(res => {
-				res = res.data
-				if(res.Success){
-					// if(res.Data.length > 0){
-					// 	res.Data.map(o => {
-					// 		console.log("id:", o.Id, "  subid:", this.subjectId)
-					// 		if(o.Id != this.subjectId){
-					// 			this.subData.push(o)
-					// 		}
-					// 	})
-					// }
-					this.subData = res.Data
-				}
-			})
+	export default {
+		data() {
+			return {
+				subData: []
+			};
 		},
-		handleSubClick(data) {
-			if(this.validRegister()){
-				if(this.subjectId == data.Id){
-					this.navigate(data)
-				}else{
-					uni.showToast({
-					    title: '已有正在学习的课程，请完成当前课程后再学习',
-						icon: "none",
-					    duration: 1000
-					});
-				}
+		components: {
+			subList
+		},
+		watch: {
+			subjectId(val) {
+				console.log("subjectid", val)
 			}
 		},
-		navigate(data) {
-			const url = '/pages/home/subject?id=' + data.Id;
-			uni.navigateTo({
-				url: url
-			});
+		computed: {
+			...mapGetters(['token', 'userName', 'subjectId', 'subjectName', 'subjectPic', 'rapidAuth', 'archiveAuth'])
 		},
-		navigateToRegister() {
-			const url = '/pages/center/register';
-			uni.navigateTo({
-				url: url
-			});
+		onReady() {
+			// this.initSubject()
+			// console.log("subjectName:", this.subjectName)
+			// console.log(this.page.route)
+			setTimeout(() => {
+				// console.log("rapidAuth: ", this.rapidAuth)
+				// console.log("archiveAuth: ", this.archiveAuth)
+				// console.log("subjectName:", this.subjectName)
+				// console.log("subjectId:", this.subjectId)
+				this.initSubject()
+			}, 1000)
 		},
-		validRegister() {
-			const _this = this;
-			if (this.userName == '') {
-				uni.showModal({
-					title: '温馨提示',
-					content: '用户未注册，是否进行注册？',
-					success: function(res) {
-						if (res.confirm) {
-							_this.navigateToRegister();
-							console.log('用户点击确定');
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
+		methods: {
+			initSubject() {
+				this.subData = []
+				getRange({
+					name: ''
+				}).then(res => {
+					res = res.data
+					if (res.Success) {
+						// if(res.Data.length > 0){
+						// 	res.Data.map(o => {
+						// 		console.log("id:", o.Id, "  subid:", this.subjectId)
+						// 		if(o.Id != this.subjectId){
+						// 			this.subData.push(o)
+						// 		}
+						// 	})
+						// }
+						this.subData = res.Data
 					}
+				})
+			},
+			handleSubClick(data) {
+				if (this.validRegister()) {
+					if (this.subjectId == data.Id) {
+						this.navigate(data)
+					} else {
+						uni.showToast({
+							title: '已有正在学习的课程，请完成当前课程后再学习',
+							icon: "none",
+							duration: 1000
+						});
+					}
+				}
+			},
+			navigate(data) {
+				const url = '/pages/home/subject?id=' + data.Id;
+				uni.navigateTo({
+					url: url
 				});
-			}else{
-				return true
+			},
+			navigateToLogin() {
+				const url = '/pages/index/login';
+				uni.navigateTo({
+					url: url
+				});
+			},
+			validRegister() {
+				const _this = this;
+				if (this.userName == '') {
+					uni.showModal({
+						title: '温馨提示',
+						content: '用户未登陆，是否登陆？',
+						success: function(res) {
+							if (res.confirm) {
+								_this.navigateToLogin();
+								console.log('用户点击确定');
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+				} else {
+					return true
+				}
 			}
 		}
-	}
-};
+	};
 </script>
 
 <style scoped>
-.current-grid {
-	background-color: #f1f1f1;
-}
-.cu-list.grid > .cu-item {
-	align-items: center;
-}
-.cu-list.menu-avatar > .cu-item .text-gray {
-	width: 100%;
-}
+	.current-grid {
+		background-color: #f1f1f1;
+	}
 
-.cu-list.menu-avatar > .cu-item .flex .text-cut {
-	max-width: 100%;
-}
+	.cu-list.grid>.cu-item {
+		align-items: center;
+	}
 
-.cu-item {
-	margin-top: 10rpx;
-}
+	.cu-list.menu-avatar>.cu-item .text-gray {
+		width: 100%;
+	}
+
+	.cu-list.menu-avatar>.cu-item .flex .text-cut {
+		max-width: 100%;
+	}
+
+	.cu-item {
+		margin-top: 10rpx;
+	}
 </style>

@@ -6,33 +6,50 @@
 				"navigationBarTitleText": "培训小程序"
 			}
 		}
-	    // ,{
-     //        "path" : "pages/home/home",
-     //        "style" : {}
-     //    }
-        // ,{
-        //     "path" : "pages/center/center",
-        //     "style" : {}
-        // }
-        ,{
-            "path" : "pages/home/subject",
-            "style" : {
-				"navigationBarTitleText": "课程"}
-        }
-        ,{
-            "path" : "pages/home/watch",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/shop/commodity",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/center/exam",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/center/register",
+		// ,{
+		//        "path" : "pages/home/home",
+		//        "style" : {}
+		//    }
+		// ,{
+		//     "path" : "pages/center/center",
+		//     "style" : {}
+		// }
+		, {
+			"path": "pages/home/subject",
+			"style": {
+				"navigationBarTitleText": "课程"
+			}
+		}, {
+			"path": "pages/home/watch",
+			"style": {
+				"navigationBarTitleText": "视频观看"
+			}
+		}, {
+			"path": "pages/shop/index",
+			"style": {
+				"navigationBarTitleText": "课程"
+			}
+		},
+		{
+			"path": "pages/shop/commodity",
+			"style": {
+				"navigationBarTitleText": "商品"
+			}
+		},
+		{
+			"path": "pages/center/exam",
+			"style": {
+				"navigationBarTitleText": "测试"
+			}
+		},
+		{
+			"path": "pages/center/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}
+	    ,{
+            "path" : "pages/index/login",
             "style" : {}
         }
     ],

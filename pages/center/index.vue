@@ -32,6 +32,11 @@
 					</view>
 					<text>报名</text>
 				</view>
+				<view class="cu-item" @tap='navigate("shop")'>
+					<view class="cuIcon-favor text-green">
+					</view>
+					<text>积分商城</text>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -54,6 +59,9 @@
 						break;
 					case "register":
 						url = "/pages/center/register?id=" + 1
+						break;
+					case "shop":
+						url = "/pages/shop/index"
 						break;
 					default:
 						break;

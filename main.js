@@ -6,8 +6,8 @@ import baseUrl from '@/base.js'
 //注册组件
 import home from './pages/home/'
 Vue.component('home', home)
-import shop from './pages/shop'
-Vue.component('shop', shop)
+// import shop from './pages/shop'
+// Vue.component('shop', shop)
 import center from './pages/center'
 Vue.component('center', center)
 

@@ -16,3 +16,11 @@ export function setSub(data){
 export function recordWatch(data){
 	return request("/video/RecordWatch", "GET", data)
 }
+
+export function tchBingWx(data){
+	return request("/seller/BindWxByCM", "GET", data)
+}
+
+export function stuBingWx(data){
+	return request("/stu/BindWxByCM", "GET", data)
+}

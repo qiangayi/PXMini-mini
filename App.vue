@@ -20,5 +20,8 @@ export default {
 <style>
 @import 'colorui/main.css';
 @import 'colorui/icon.css';
+page{
+	height: 100%;
+}
 /*每个页面公共css */
 </style>

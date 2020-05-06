@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<home v-if="PageCur=='home'"></home>
-		<shop v-if="PageCur=='shop'"></shop>
+		<!-- <shop v-if="PageCur=='shop'"></shop> -->
 		<center v-if="PageCur=='center'"></center>
 		<view class="cu-bar tabbar bg-white shadow foot">
 			<view :class="['action', PageCur=='home'?'text-green':'text-gray']" @click="NavChange" data-cur="home">
@@ -10,12 +10,12 @@
 				</view>
 				<view>主页</view>
 			</view>
-			<view :class="['action', PageCur=='shop'?'text-green':'text-gray']"  @click="NavChange" data-cur="shop">
+			<!-- <view :class="['action', PageCur=='shop'?'text-green':'text-gray']"  @click="NavChange" data-cur="shop">
 				<view class='cuIcon-cu-image'>
 					<text class="lg cuIcon-shop"></text>
 				</view>
 				<view>积分商城</view>
-			</view>
+			</view> -->
 			<view :class="['action', PageCur=='center'?'text-green':'text-gray']" @click="NavChange" data-cur="center">
 				<view class='cuIcon-cu-image'>
 					<text class="lg cuIcon-people"></text>
