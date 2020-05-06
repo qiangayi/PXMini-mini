@@ -55,7 +55,7 @@
 					tchBingWx(data).then(res => {
 						res = res.data
 						if (res.Success) {
-							this.funBindSuccess(res.Data)
+							this.funBindSuccess(res)
 						} else {
 							uni.showToast({
 								title: res.Msg,
@@ -67,7 +67,7 @@
 					stuBingWx(data).then(res => {
 						res = res.data
 						if (res.Success) {
-							this.funBindSuccess(res.Data)
+							this.funBindSuccess(res)
 						} else {
 							uni.showToast({
 								title: res.Msg,
@@ -77,9 +77,9 @@
 					})
 				}
 			},
-			funBindSuccess(data) {
+			funBindSuccess(res) {
 				//初始化用户信息
-				this.$store.dispatch('user/initUserInfo', data);
+				this.$store.dispatch('user/initUserInfo', res.Data);
 				uni.showToast({
 					title: res.Msg,
 					success: function() {

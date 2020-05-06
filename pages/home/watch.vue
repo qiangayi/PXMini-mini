@@ -1,6 +1,11 @@
 <template>
 	<view>
 		<scroll-view scroll-y class="page padding-lr">
+			<view class="action text-xl  padding-tb-sm solid-bottom">
+				<!-- <view class="cu-avatar radius lg" :style="'background-image:url(' + item.Url+');'"></view> -->
+				<text class="cuIcon-titles text-green"></text>
+				<text class="text-bold">{{video.Title}}</text>
+			</view>
 			<view class="flex align-center justify-center">
 				<video id="myVideo" :src="videoSrc" :show-play-btn="false" :show-center-play-btn="false" @ended="handleEnded"
 				 @timeupdate="handleTimeUpdate" :enable-progress-gesture="false" :controls="false"></video>
@@ -49,6 +54,7 @@
 			return {
 				videoRoute: '',
 				id: 0,
+				video: '',
 				videoSrc: 0,
 				TabCur: 0,
 				rapidPlay: false,
@@ -88,7 +94,12 @@
 				}).then(res => {
 					res = res.data
 					if (res.Success) {
-						this.videoSrc = this.golbal_getVideoUrl(res.Data.VideoName)
+						const {
+							Files,
+							Video,
+							Watch
+						} = res.Data
+						this.setVideoInfo(Video)
 						// this.videoContext.play()
 					}
 				})
@@ -97,11 +108,15 @@
 				this.videoContext.play()
 				this.intervalRecordPlaying()
 			},
+			setVideoInfo(video) {
+				this.video = video
+				this.videoSrc = this.golbal_getVideoUrl(video.VideoName)
+			},
+			//定时记录播放时间
 			intervalRecordPlaying() {
 				const _this = this
 				const curRoute = _this.funGetCurRoute();
-				console.log("curroute ", curRoute)
-				console.log("videoRoute ", _this.videoRoute)
+				//未处于视频页面取消当前定时
 				if (_this.videoRoute != curRoute) {
 					return;
 				}
@@ -146,16 +161,16 @@
 				}
 				this.rapidPlay = !rapid
 			},
-			funGetCurRoute(){
-			let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
-			return routes[routes.length - 1].route // 获取当前页面路由，也就是最后一个打开的页面路由
-		},
-		tabSelect(e) {
-			console.log(this.TabCur == 1)
-			this.TabCur = e.currentTarget.dataset.id;
-			this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+			funGetCurRoute() {
+				let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
+				return routes[routes.length - 1].route // 获取当前页面路由，也就是最后一个打开的页面路由
+			},
+			tabSelect(e) {
+				console.log(this.TabCur == 1)
+				this.TabCur = e.currentTarget.dataset.id;
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+			}
 		}
-	}
 	}
 </script>
 

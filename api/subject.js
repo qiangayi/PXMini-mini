@@ -12,5 +12,5 @@ export function getInfo(data){
 
 //课程视频
 export function getVideo(data){
-	return request("/sub/GetVideoInfo", "GET", data)
+	return request("/sub/WxGetVideoInfo", "GET", data)
 }

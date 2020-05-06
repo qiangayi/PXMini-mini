@@ -96,7 +96,7 @@
 			},
 			handleSubClick(data) {
 				if (this.validRegister()) {
-					if (this.subjectId == data.Id) {
+					if (this.subjectId == data.Id || this.subjectId == 0) {
 						this.navigate(data)
 					} else {
 						uni.showToast({
