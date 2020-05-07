@@ -1,24 +1,15 @@
 <template>
-	<view class="">		
+	<view class="">
 		<view class="cu-card article no-card solid-top">
 			<view class="cu-item shadow">
-				<view class="title bg-white">题目1：多选</view>
+				<view class="title bg-white">(多选){{order}}:{{title}}</view>
 				<view class="content">
 					<view class="desc">
-						<checkbox-group class="block" @change="CheckboxChange">
-							<view class="cu-form-group">
-								<view class="title">选项1</view>
-								<checkbox class='round' :class="checkbox[0].checked?'checked':''" :checked="checkbox[0].checked?true:false" value="A"></checkbox>
-							</view>
-							<view class="cu-form-group">
-								<view class="title">选项2</view>
-								<checkbox class='round' :class="checkbox[1].checked?'checked':''" :checked="checkbox[1].checked?true:false"
-								 value="B"></checkbox>
-							</view>
-							<view class="cu-form-group">
-								<view class="title">选项3</view>
-								<checkbox class='round' :class="checkbox[2].checked?'checked':''" :checked="checkbox[2].checked?true:false"
-								 value="C"></checkbox>
+						<checkbox-group class="block" @change="handleCheckboxChange">
+							<view class="cu-form-group" v-for="(item, index) in optionData" :key="index">
+								<view class="title">{{item}}</view>
+								<checkbox class='round' :class="checkbox[0].checked?'checked':''" :checked="checkbox[0].checked?true:false"
+								 :value="index"></checkbox>
 							</view>
 						</checkbox-group>
 					</view>
@@ -29,8 +20,45 @@
 </template>
 
 <script>
+	export default {
+		props: {
+			order: {
+				type: Number,
+				default: 1
+			},
+			title: {
+				type: String,
+				default: ''
+			},
+			id: {
+				type: Number,
+				default: 0
+			},
+			options: {
+				type: String,
+				default: ''
+			}
+		},
+		mounted() {
+			this.optionData = this.options.split("@@")
+		},
+		data: () => {
+			return {
+				optionData: [],
+				checkbox: []
+			}
+		},
+		methods: {
+			handleCheckboxChange: function(e) {
+				const arr = e.detail.value.map((val)  => {
+					return Number(val)
+				})
+				console.log(arr)
+			}
+		}
+	}
 </script>
 
 <style scoped>
-	
+
 </style>

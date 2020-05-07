@@ -23,7 +23,7 @@
 			</view>
 			<view class="flex align-end justify-end padding-tb-sm">
 				<button class="cu-btn bg-green" @tap="handleAskSubmit">提交</button></view>
-			<view class="padding-top-xs">
+			<view class="padding-tb-xs">
 				<scroll-view scroll-x class="bg-white nav">
 					<view class="flex text-center">
 						<view class="cu-item flex-sub" :class="index==TabCur?'text-orange cur':''" v-for="(item,index) in tabData" :key="index"
@@ -36,7 +36,7 @@
 				<courseware :fileData="fileList" v-if='TabCur == 0'></courseware>
 
 				<!-- 问答 -->
-				<question :askData="askList" v-if='TabCur == 1'></question>
+				<question :askData="askList" v-if='TabCur == 1' @reply="handleReply"></question>
 			</view>
 		</scroll-view>
 	</view>
@@ -50,7 +50,8 @@
 	} from "@/api/subject.js"
 	import {
 		range as askRange,
-		addAsk
+		addAsk,
+		addReply
 	} from "@/api/teach.js"
 	import {
 		mapGetters,
@@ -197,6 +198,10 @@
 				}
 				this.apiAddAsk()
 			},
+			handleReply(data){
+				data.id = this.id
+				this.apiAddReply(data)
+			},
 			handleTimeUpdate({
 				detail
 			}) {
@@ -222,12 +227,34 @@
 					id: this.id,
 					value: this.formData.question
 				}
+				uni.showLoading({
+					title: '加载中'
+				});
 				addAsk(data).then(res => {
-					this.loading = false
+					uni.hideLoading();
 					res = res.data
 					if (res.Success) {
 						//初始化用户信息
 						this.formData.question = ''
+						this.apiAskRange()
+					}
+					uni.showToast({
+						title: res.Msg,
+						icon: "none",
+						duration: 1000
+					});
+				})
+			},
+			apiAddReply(data) {
+				uni.showLoading({
+					title: '加载中'
+				});
+				addReply(data).then(res => {
+					uni.hideLoading();
+					res = res.data
+					if (res.Success) {
+						//初始化用户信息
+						this.apiAskRange()
 					}
 					uni.showToast({
 						title: res.Msg,

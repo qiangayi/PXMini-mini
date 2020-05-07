@@ -17,15 +17,15 @@
 			<!-- <text class="text-black">可跳转</text> -->
 			<view class="padding-top-xs">
 				<view class="cu-list menu" :class="sm-border">
-					<navigator class="video-menu cu-item margin-xs" v-for="(item,index) in info.Children" :data-id="item.Id" :key="index"
-					 :url="'/pages/home/watch?id='+item.Id" hover-class="navigator-hover">
+					<view class="video-menu cu-item margin-xs" v-for="(item,index) in info.Children" :data-id="item.Id" :key="index"
+					 @tap="handleVideoClick(item.Id)" hover-class="navigator-hover">
 						<view class="content">
 							<text class="text-grey">{{item.Title}}</text>
 						</view>
 						<view class="action">
 							<text class="cuIcon-playfill"></text>
 						</view>
-					</navigator>
+					</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -90,16 +90,32 @@
 					uni.hideLoading();
 					res = res.data
 					if (res.Success) {
-						uni.showToast({
-							title: res.Msg,
-							duration: 1000
-						});
 						this.$store.dispatch("user/initSubjectInfo", res.Data)
 					}
+					uni.showToast({
+						title: res.Msg,
+						icon: "none",
+						duration: 1000
+					});
 				})
+			},
+			handleVideoClick(id) {
+				if (this.subjectId == 0) {
+					uni.showToast({
+						title: "请点击开始学习！",
+						duration: 1000
+					});
+					return;
+				}
+				this.navigateToVideo(id)
+			},
+			navigateToVideo(id) {
+				const url = '/pages/home/watch?id=' + id;
+				uni.navigateTo({
+					url: url
+				});
 			}
-		},
-
+		}
 	}
 </script>
 

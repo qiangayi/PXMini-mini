@@ -43,19 +43,33 @@
 </template>
 
 <script>
+	import {
+		mapGetters,
+		mapState
+	} from 'vuex';
 	export default {
 		data() {
 			return {
 
 			}
 		},
+		computed:{
+			...mapGetters(['subjectId'])			
+		},
 		methods: {
 			navigate(type) {
-				console.log(type)
 				let url = ""
 				switch (type) {
 					case "exam":
-						url = "/pages/center/exam?id=" + 1
+					if(this.subjectId == 0){
+						uni.showToast({
+						    title: '当前没有正在学习的课程！',
+							icon: "none",
+						    duration: 2000
+						});
+						return;
+					}
+						url = "/pages/center/exam?subId=" + this.subjectId
 						break;
 					case "register":
 						url = "/pages/center/register?id=" + 1

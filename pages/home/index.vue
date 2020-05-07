@@ -14,7 +14,7 @@
 				<view class="cu-list grid current-grid" v-if="subjectName != ''" :class="['col-5', 'no-border']">
 					<view class="cu-item" @tap="handleSubClick({Id: subjectId})">
 						<image class="cu-avatar lg" :mode="item.mode" :src="golbal_getImgUrl(subjectPic)"></image>
-						<text>母婴</text>
+						<text>{{subjectName}}</text>
 					</view>
 				</view>
 				<view class="text-df text-gray text-center padding-tb-sm" v-else><text>当前没有正在学习的课程</text></view>

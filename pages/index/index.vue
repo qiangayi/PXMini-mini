@@ -27,6 +27,10 @@
 </template>
 
 <script>
+	import {
+		mapGetters,
+		mapState
+	} from 'vuex';
 	export default {
 		data() {
 			return {
@@ -34,11 +38,41 @@
 				title: 'Hello'
 			}
 		},
+		computed: {
+			...mapGetters(['userName'])
+		},
 		onLoad() {
 		},
 		methods: {
 			NavChange: function(e) {
-				this.PageCur = e.currentTarget.dataset.cur
+				if (this.validRegister()) {
+					this.PageCur = e.currentTarget.dataset.cur
+				}
+			},
+			validRegister() {
+				const _this = this;
+				if (this.userName == '') {
+					uni.showModal({
+						title: '温馨提示',
+						content: '用户未登陆，是否登陆？',
+						success: function(res) {
+							if (res.confirm) {
+								_this.navigateToLogin();
+								console.log('用户点击确定');
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+				} else {
+					return true
+				}
+			},
+			navigateToLogin() {
+				const url = '/pages/index/login';
+				uni.navigateTo({
+					url: url
+				});
 			}
 		}
 	}
