@@ -1,12 +1,12 @@
 <template>
 
 	<view class="cu-list menu sm-border margin-top-xs">
-		<view class="video-menu cu-item" v-for="(item, index) in list" :key="index">
+		<view class="video-menu cu-item" v-for="(item, index) in fileData" :key="index">
 			<view class="content">
-				<text class="text-grey">{{item.name}}</text>
+				<text class="text-grey">{{item.Title}}</text>
 			</view>
 			<view class="action">
-				<text class="cuIcon-playfill"></text>
+				<text class="cuIcon-playfill" @tap="handleOpenClick(item.AnnexId)"></text>
 			</view>
 		</view>
 	</view>
@@ -15,24 +15,37 @@
 <script>
 	export default {
 		name: "courserware",
+		props:{
+			fileData: {
+				type: Array,
+				default: function(){
+					return []
+				}
+			}
+		},
 		data() {
 			return {
-				list: [{
-						name: "课件1"
-					},
-					{
-						name: "课件2"
-					},
-					{
-						name: "课件3"
-					},
-					{
-						name: "课件4"
-					},
-					{
-						name: "课件5"
-					},
-				]
+			}
+		},
+		methods:{
+			handleOpenClick(file){
+				this.openFile(file)
+			},
+			openFile(file){
+				const url = this.golbal_getFileUrl(file)
+				console.log(url)
+				uni.downloadFile({
+				  url: url,
+				  success: function (res) {
+				    var filePath = res.tempFilePath;
+				    uni.openDocument({
+				      filePath: filePath,
+				      success: function (res) {
+				        console.log('打开文档成功');
+				      }
+				    });
+				  }
+				});
 			}
 		}
 	}

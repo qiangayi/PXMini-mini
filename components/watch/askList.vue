@@ -1,6 +1,6 @@
 <template>
 	<view class="cu-list menu-avatar comment solids-top">
-		<view class="cu-item margin-top-xs" v-for="item in list" :key="item.Id">
+		<view class="cu-item margin-top-xs" v-for="item in askData" :key="item.Id">
 			<view class="content">
 				<view class="text-grey">{{item.Name}}</view>
 				<view class="text-gray text-content text-df">
@@ -25,6 +25,14 @@
 <script>
 	export default {
 		name: "courserware",
+		props:{
+			askData: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			}
+		},
 		data() {
 			return {
 				list: [{

@@ -16,6 +16,13 @@
 				<button class="cu-btn round line-blue" v-if="rapidAuth" @tap="handleRapidPlay(false)">普通播放</button>
 			</view>
 			<!-- https://www.nwedo.net/nsp/StreamingAssets/Movie/1.mp4 -->
+
+			<view class="cu-form-group align-start">
+				<view class="title">提问</view>
+				<textarea maxlength="-1" data-field='question' @input="handleInputChange" v-model="formData.question" placeholder="请用一句话描述你的问题"></textarea>
+			</view>
+			<view class="flex align-end justify-end padding-tb-sm">
+				<button class="cu-btn bg-green" @tap="handleAskSubmit">提交</button></view>
 			<view class="padding-top-xs">
 				<scroll-view scroll-x class="bg-white nav">
 					<view class="flex text-center">
@@ -26,10 +33,10 @@
 					</view>
 				</scroll-view>
 				<!-- 课件 -->
-				<courseware v-if='TabCur == 0'></courseware>
+				<courseware :fileData="fileList" v-if='TabCur == 0'></courseware>
 
 				<!-- 问答 -->
-				<question v-if='TabCur == 1'></question>
+				<question :askData="askList" v-if='TabCur == 1'></question>
 			</view>
 		</scroll-view>
 	</view>
@@ -41,6 +48,10 @@
 	import {
 		getVideo
 	} from "@/api/subject.js"
+	import {
+		range as askRange,
+		addAsk
+	} from "@/api/teach.js"
 	import {
 		mapGetters,
 		mapState
@@ -65,12 +76,17 @@
 						name: '问答'
 					}
 				],
+				formData: {
+					question: ""
+				},
 				//间隔时间
 				intervalTime: 10,
 				intervalId: 0,
 				videoContext: "",
 				currentTime: 0,
-				duration: 0
+				duration: 0,
+				fileList: [],
+				askList: []
 			}
 		},
 		computed: {
@@ -83,6 +99,9 @@
 		onLoad: function(option) {
 			this.id = option.id
 			this.initInfo()
+			setTimeout(() => {
+				this.apiAskRange()
+			}, 1500)
 			this.videoContext = uni.createVideoContext('myVideo')
 			this.videoRoute = this.funGetCurRoute()
 		},
@@ -100,6 +119,25 @@
 							Watch
 						} = res.Data
 						this.setVideoInfo(Video)
+						this.fileList = Files
+						// this.videoContext.play()
+					}
+				})
+			},
+			apiAskRange() {
+				askRange({
+					id: this.id
+				}).then(res => {
+					res = res.data
+					if (res.Success) {
+						this.askList = res.Data
+						// const {
+						// 	Files,
+						// 	Video,
+						// 	Watch
+						// } = res.Data
+						// this.setVideoInfo(Video)
+						// this.fileList = Files
 						// this.videoContext.play()
 					}
 				})
@@ -141,6 +179,24 @@
 			handleEnded() {
 				clearInterval(this.intervalId)
 			},
+			handleInputChange(e) {
+				const _this = this
+				setTimeout(function() {
+					const field = e.target.dataset.field
+					_this.formData[field] = e.target.value
+				}, 100);
+			},
+			handleAskSubmit() {
+				if (this.formData.question == '') {
+					uni.showToast({
+						title: '请输入提问内容',
+						icon: "none",
+						duration: 1000
+					});
+					return false
+				}
+				this.apiAddAsk()
+			},
 			handleTimeUpdate({
 				detail
 			}) {
@@ -160,6 +216,25 @@
 					this.videoContext.playbackRate(1)
 				}
 				this.rapidPlay = !rapid
+			},
+			apiAddAsk() {
+				var data = {
+					id: this.id,
+					value: this.formData.question
+				}
+				addAsk(data).then(res => {
+					this.loading = false
+					res = res.data
+					if (res.Success) {
+						//初始化用户信息
+						this.formData.question = ''
+					}
+					uni.showToast({
+						title: res.Msg,
+						icon: "none",
+						duration: 1000
+					});
+				})
 			},
 			funGetCurRoute() {
 				let routes = getCurrentPages(); // 获取当前打开过的页面路由数组

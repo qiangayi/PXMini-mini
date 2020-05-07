@@ -22,6 +22,10 @@ Vue.prototype.golbal_getVideoUrl = function(fileName) {
 	const url = `${baseUrl}/Upload/video/${fileName}`
 	return url
 }
+Vue.prototype.golbal_getFileUrl = function(fileName) {
+	const url = `${baseUrl}/Upload/file/${fileName}`
+	return url
+}
 
 
 App.mpType = 'app'
