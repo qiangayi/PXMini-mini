@@ -30,7 +30,7 @@
 				type: String,
 				default: ''
 			},
-			id: {
+			topicId: {
 				type: Number,
 				default: 0
 			},
@@ -50,10 +50,11 @@
 		},
 		methods: {
 			handleCheckboxChange: function(e) {
-				const arr = e.detail.value.map((val)  => {
+				const answer = e.detail.value.map((val)  => {
 					return Number(val)
 				})
-				console.log(arr)
+				const id = this.topicId;
+				this.$emit("change", {id, answer})
 			}
 		}
 	}

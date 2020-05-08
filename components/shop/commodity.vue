@@ -1,6 +1,6 @@
 <template>
 	<view class="cu-list menu-avatar ">
-			<view class="cu-item" url="/pages/home/subject" hover-class="navigator-hover" v-for="item in list" :key="item.Id"  @tap="handleClick(item)">
+			<view class="cu-item" url="/pages/home/subject" hover-class="navigator-hover" v-for="item in commodityData" :key="item.Id"  @tap="handleClick(item)">
 				<view class="cu-avatar xl" :style="'background-image:url(' + item.Url+');'"></view>
 				<view class="content">
 					<view class="text-black text-lg">
@@ -20,34 +20,16 @@
 <script>
 	export default {
 		name: "courserware",
-		data() {
-			return {
-				list: [{
-					Id: 1,
-					Url: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2375117805,2146028239&fm=11&gp=0.jpg",
-					Name: "桔子",
-					Directions: "好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子好吃的桔子",
-					Price: 6
-				}, {
-					Id: 2,
-					Url: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2375117805,2146028239&fm=11&gp=0.jpg",
-					Name: "苹果",
-					Directions: "好吃的苹果",
-					Price: 7
-				}, {
-					Id: 3,
-					Url: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2375117805,2146028239&fm=11&gp=0.jpg",
-					Name: "香蕉",
-					Directions: "好吃的香蕉",
-					Price: 8
-				}, {
-					Id: 4,
-					Url: "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2375117805,2146028239&fm=11&gp=0.jpg",
-					Name: "耳机",
-					Directions: "音质很清晰",
-					Price: 9
-				}, ]
+		props:{
+			commodityData: {
+				type: Array,
+				default: () => {
+					return []
+				}
 			}
+		},
+		data() {
+			return {}
 		},
 		methods:{
 			handleClick(item){

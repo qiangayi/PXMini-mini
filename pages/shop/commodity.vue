@@ -4,46 +4,84 @@
 			<image src="@/static/home-banner.png" mode="widthFix" class="response"></image>
 			<view class="">
 				<view class="text-xxl padding-xs">
-					<text class=" text-red">5积分</text>
+					<text class=" text-red">{{info.Price}}积分</text>
 				</view>
 
 				<view class="solid-bottom text-xl padding-xs">
-					<text class="text-black text-bold">耳机！</text>
+					<text class="text-black text-bold">{{info.Name}}</text>
 				</view>
 				<view class="text-df padding-xs">
-					<text class="text-grey">音盾很好的耳机！限量50个</text>
+					<text class="text-grey">{{info.Directions}}</text>
 				</view>
 			</view>
 
 			<view class="cu-bar bg-white tabbar border shop foot">
-				<view class="bg-red submit">立即订购</view>
+				<view class="bg-red submit" @tap="handleOrderClick">立即订购</view>
 			</view>
-
-			<!-- <view class="nav-list">
-				<navigator hover-class="none" :url="'/pages/basics/' + item.name" class="nav-li" navigateTo :class="'bg-'+item.color"
-				 :style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]" v-for="(item,index) in elements" :key="index">
-					<view class="nav-title">{{item.title}}</view>
-					<view class="nav-name">{{item.name}}</view>
-					<text :class="'cuIcon-' + item.cuIcon"></text>
-				</navigator>
-			</view> -->
 		</scroll-view>
 	</view>
 </template>
 
 <script>
-
+	import {
+		get,
+		addOrder
+	} from '@/api/shop.js'
 	export default {
 		data() {
 			return {
-
+				id: 0,
+				info: {}
 			}
 		},
+		onLoad(options) {
+			this.id = options.id
+			this.initInfo()
+		},
 		methods: {
-			navigate(data) {
-				const url = "/pages/home/subject?id=" + data.Id
-				uni.navigateTo({
-					url: url
+			initInfo() {
+				const id = this.id
+				uni.showLoading({
+					title: '加载中'
+				});
+				get({
+					id
+				}).then(res => {
+					uni.hideLoading();
+					res = res.data
+					if (res.Success) {
+						this.info = res.Data
+					} else {
+						uni.showToast({
+							title: res.Msg,
+							icon: "none"
+						})
+
+					}
+				})
+			},
+			handleOrderClick() {
+				this.apiSubmitOrder()
+			},
+			apiSubmitOrder() {
+				const id = this.id
+				uni.showLoading({
+					title: '加载中'
+				});
+				addOrder({
+					commodityId: id
+				}).then(res => {
+					uni.hideLoading();
+					res = res.data
+					uni.showToast({
+						title: res.Msg,
+						icon: "none",
+						success: function() {
+							setTimeout(() => {
+								uni.navigateBack()
+							}, 800)
+						}
+					})
 				})
 			}
 		}

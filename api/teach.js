@@ -13,3 +13,7 @@ export function addAsk(data){
 export function addReply(data){
 	return request("/teach/wxReply", "POST", data)
 }
+
+export function testSubmit(data){
+	return request("/teach/wxTestScore", "POST", data)
+}

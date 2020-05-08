@@ -34,7 +34,7 @@
 				type: String,
 				default: ''
 			},
-			id: {
+			topicId: {
 				type: Number,
 				default: 0
 			},
@@ -54,11 +54,12 @@
 		},
 		methods: {
 			handleRadioChange: function(e) {
-				const answer = Number(e.detail.value)
+				const answer = [Number(e.detail.value)]
 				// const arr = e.detail.value.map((val)  => {
 				// 	return Number(val)
 				// })
-				console.log(answer)
+				const id = this.topicId;
+				this.$emit("change", {id, answer})
 			}
 		}
 	}
