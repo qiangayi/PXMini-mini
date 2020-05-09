@@ -6,7 +6,7 @@ if(process.env.NODE_ENV === 'development'){
     url_config = 'http://localhost:18181/'
 }else{
     // 生产环境
-    url_config = 'https://*****.com/'
+    url_config = 'https://px.hihservice.com/'
 }
 url_config = url_config
 

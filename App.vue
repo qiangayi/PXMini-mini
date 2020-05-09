@@ -6,6 +6,9 @@ export default {
 			mask: true
 		});
 		this.$store.dispatch('user/login');
+		// setTimeout(() => {
+		// this.$store.dispatch('user/getSign');
+		// }, 2000)
 		console.log('App Launch');
 	},
 	onShow: function() {

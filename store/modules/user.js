@@ -1,9 +1,10 @@
 import {
-	login
+	login,
+	getSign
 } from '@/api/user'
 import {
 	getToken,
-	setToken
+	setToken,
 } from '@/common/auth'
 // import { resetRouter } from '@/router'
 
@@ -22,6 +23,7 @@ const getDefaultState = () => {
 		subjectId: 0,
 		subjectName: '',
 		subjectPic: '',
+		signed: false
 		// avatar: ''
 	}
 }
@@ -52,6 +54,9 @@ const mutations = {
 	},
 	SET_SCORE: (state, score) => {
 		state.score = score
+	},
+	SET_SIGNED: (state, signed) => {
+		state.signed = signed
 	}
 }
 
@@ -64,11 +69,11 @@ const actions = {
 		uni.login({
 			provider: 'weixin',
 			success: function(loginRes) {
-				const code = loginRes.code; 
+				const code = loginRes.code;
 				return login({
 					code
 				}).then(response => {
-				uni.hideLoading();
+					uni.hideLoading();
 					// console.log("login success")
 					const res = response.data
 					if (res.Success) {
@@ -82,6 +87,11 @@ const actions = {
 				}).catch(error => {})
 			}
 		});
+	},
+	getSign({commit}) {
+		getSign().then(res => {
+			console.log(res)
+		})
 	},
 	initUserInfo({
 		commit,
@@ -99,7 +109,8 @@ const actions = {
 			subjectPic,
 			score,
 			ArchiveAuth,
-			RapidAuth
+			RapidAuth,
+			signed
 		} = data
 		// console.log("registered", registered)
 		//判断是否为注册用户
@@ -108,15 +119,17 @@ const actions = {
 			commit("SET_NAME", name)
 			//type: 0： 班级学员,1销售,2普通学员
 			commit("SET_TYPE", type)
-			if (type == 1) {
-				commit("SET_CLASEID", claseId ? 0 : claseId)
-				commit("SET_CLASENAME", claseName ? '' : claseName)
+			if (type == 0) {
+				console.log("claseid", claseId)
+				commit("SET_CLASEID", claseId ? claseId : 0)
+				commit("SET_CLASENAME", claseName ? claseName : '')
 			}
 			commit("SET_SUBJECTID", subjectId)
 			commit("SET_SUBJECTNAME", subjectName)
 			commit("SET_SUBJECTPIC", subjectPic)
 			commit("SET_SCORE", score)
-console.log(subjectPic)
+			commit("SET_SIGNED", signed)
+			console.log(subjectPic)
 			//用户权限
 			dispatch("auth/setRapidAuth", RapidAuth == 1, {
 				root: true
@@ -126,12 +139,21 @@ console.log(subjectPic)
 			})
 		}
 	},
-	initSubjectInfo({commit}, data){		
+	initSubjectInfo({
+		commit
+	}, data) {
 		console.log(data)
-		const {Id, Name, Icon} = data
-			commit("SET_SUBJECTID", Id )
-			commit("SET_SUBJECTNAME", Name)
-			commit("SET_SUBJECTPIC", Icon)
+		const {
+			Id,
+			Name,
+			Icon
+		} = data
+		commit("SET_SUBJECTID", Id)
+		commit("SET_SUBJECTNAME", Name)
+		commit("SET_SUBJECTPIC", Icon)
+	},
+	setSign({commit}){
+			commit("SET_SIGNED", true)
 	}
 }
 

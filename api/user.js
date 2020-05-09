@@ -24,3 +24,11 @@ export function tchBingWx(data){
 export function stuBingWx(data){
 	return request("/stu/BindWxByCM", "GET", data)
 }
+
+export function getSign(data){
+	return request("/stu/GetSign", "GET", data)
+}
+
+export function addSign(data){
+	return request("/stu/AddSign", "GET", data)
+}
