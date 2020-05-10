@@ -72,11 +72,12 @@
 			...mapGetters(['subjectId', 'userName', 'signed', 'claseId'])
 		},
 		mounted() {
-			console.log(this.claseId)
+			// console.log(this.claseId)
+				// this.toolData.push({name: "模拟报名", target: 'register'})
 			if(this.claseId != 0){
 				this.toolData.push({name: "在线考试", target: 'exam'})
 				this.toolData.push({name: "积分商城", target: 'shop'})
-				console.log(this.toolData)
+				// console.log(this.toolData)
 			}
 		},
 		methods: {
@@ -95,7 +96,7 @@
 						url = "/pages/center/exam?subId=" + this.subjectId
 						break;
 					case "register":
-						url = "/pages/center/register?id=" + 1
+						url = "/pages/center/register?claseId=" + 1
 						break;
 					case "shop":
 						url = "/pages/shop/index"

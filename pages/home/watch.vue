@@ -7,11 +7,12 @@
 				<text class="text-bold">{{video.Title}}</text>
 			</view>
 			<view class="flex align-center justify-center">
-				<video id="myVideo" :src="videoSrc" :show-play-btn="false" :show-center-play-btn="false" @ended="handleEnded"
+				<video id="myVideo" :src="videoSrc" :initial-time="startTime" :show-play-btn="false" :show-center-play-btn="false" @ended="handleEnded"
 				 @timeupdate="handleTimeUpdate" :enable-progress-gesture="false" :controls="false"></video>
 			</view>
 			<view class="margin-tb-sm text-center">
 				<button class="cu-btn round line-blue" @tap="playVideo()">播放</button>
+				<button class="cu-btn round line-blue" v-if="archiveAuth" @tap="playVideoLastTime()">接上次播放</button>
 				<button class="cu-btn round line-blue" v-if="rapidAuth" @tap="handleRapidPlay(true)">倍速播放</button>
 				<button class="cu-btn round line-blue" v-if="rapidAuth" @tap="handleRapidPlay(false)">普通播放</button>
 			</view>
@@ -82,12 +83,14 @@
 				},
 				//间隔时间
 				intervalTime: 10,
+				startTime: 0,
 				intervalId: 0,
 				videoContext: "",
 				currentTime: 0,
 				duration: 0,
 				fileList: [],
-				askList: []
+				askList: [],
+				watchInfo: {}
 			}
 		},
 		computed: {
@@ -121,6 +124,7 @@
 						} = res.Data
 						this.setVideoInfo(Video)
 						this.fileList = Files
+						this.watchInfo = Watch
 						// this.videoContext.play()
 					}
 				})
@@ -147,6 +151,11 @@
 				this.videoContext.play()
 				this.intervalRecordPlaying()
 			},
+			playVideoLastTime(){
+				const lastTime = this.watchInfo.WatchTime
+				this.startTime = lastTime
+				this.playVideo()
+			},
 			setVideoInfo(video) {
 				this.video = video
 				this.videoSrc = this.golbal_getVideoUrl(video.VideoName)
@@ -159,14 +168,12 @@
 				if (_this.videoRoute != curRoute) {
 					return;
 				}
-				console.log(getCurrentPages())
 				_this.intervalId = setTimeout(() => {
 					const data = {
 						id: _this.id,
 						timeLength: parseInt(_this.currentTime),
 						videoLength: parseInt(_this.duration)
 					}
-					console.log(data)
 					recordWatch(data).then(res => {
 						res = res.data
 						console.log(res)

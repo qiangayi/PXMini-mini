@@ -11,6 +11,13 @@
 						<text class="text-df text-bold">当前课程</text>
 					</view>
 				</view>
+				<view class="cu-list grid current-grid" v-if="subjectName == ''" :class="['col-5', 'no-border']">
+					<navigator class="cu-item" url="/pages/center/register?claseId=1">
+						<view class="cuIcon-favor text-green">
+						</view>
+						<text>模拟报名</text>
+					</navigator>
+				</view>
 				<view class="cu-list grid current-grid" v-if="subjectName != ''" :class="['col-5', 'no-border']">
 					<view class="cu-item" @tap="handleSubClick({Id: subjectId})">
 						<image class="cu-avatar lg" :mode="item.mode" :src="golbal_getImgUrl(subjectPic)"></image>
