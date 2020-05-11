@@ -77,8 +77,6 @@
 							uploadIdCard(res.tempFilePaths[0], formData).then(res => {
 								const data = JSON.parse(res[1].data)
 								this.fileList[0] = data.Data.fileName
-								console.log(this.fileList)
-								console.log(this.fileList[0] != '')
 								this.$emit("upload", this.fileList)
 
 								// console.log(data.Data.card)
