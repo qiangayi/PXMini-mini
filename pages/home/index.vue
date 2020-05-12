@@ -1,7 +1,12 @@
 <template>
 	<view>
 		<scroll-view scroll-y class="page">
-			<image src="@/static/home-banner.png" mode="widthFix" class="response"></image>
+			
+			<swiper class="swiper" :indicator-dots="true" :autoplay="true" :circular="true" interval="3000" duration="500">
+				<swiper-item v-for="item in bannerList">
+					<image :src="golbal_getBannerPath(item)" mode="widthFix" class="response"></image>
+				</swiper-item>
+			</swiper>
 			<view class="padding-lr ">
 				<!-- 当前课程 -->
 				<view class="cu-bar solid-bottom">
@@ -55,6 +60,7 @@
 	export default {
 		data() {
 			return {
+				bannerList: ['banner1.png', 'banner2.png', 'banner3.png', 'banner4.png', 'banner5.png'],
 				subData: []
 			};
 		},

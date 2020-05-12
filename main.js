@@ -26,6 +26,10 @@ Vue.prototype.golbal_getFileUrl = function(fileName) {
 	const url = `${baseUrl}/Upload/file/${fileName}`
 	return url
 }
+Vue.prototype.golbal_getBannerPath = function(fileName) {
+	const url = `${baseUrl}/img/banner/${fileName}`
+	return url
+}
 
 
 App.mpType = 'app'

@@ -30,8 +30,9 @@
 		methods:{
 			handleOpenClick(file){
 				this.openFile(file)
+				this.$emit("click")
 			},
-			openFile(file){
+			async openFile(file){
 				const url = this.golbal_getFileUrl(file)
 				console.log(url)
 				uni.downloadFile({

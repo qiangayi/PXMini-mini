@@ -34,7 +34,7 @@
 					</view>
 				</scroll-view>
 				<!-- 课件 -->
-				<courseware :fileData="fileList" v-if='TabCur == 0'></courseware>
+				<courseware :fileData="fileList" @click="handleFileCLick" v-if='TabCur == 0'></courseware>
 
 				<!-- 问答 -->
 				<question :askData="askList" v-if='TabCur == 1' @reply="handleReply"></question>
@@ -59,7 +59,8 @@
 		mapState
 	} from 'vuex';
 	import {
-		recordWatch
+		recordWatch,
+		recordTeachFile
 	} from "@/api/user.js"
 
 	export default {
@@ -136,14 +137,6 @@
 					res = res.data
 					if (res.Success) {
 						this.askList = res.Data
-						// const {
-						// 	Files,
-						// 	Video,
-						// 	Watch
-						// } = res.Data
-						// this.setVideoInfo(Video)
-						// this.fileList = Files
-						// this.videoContext.play()
 					}
 				})
 			},
@@ -228,6 +221,14 @@
 					this.videoContext.playbackRate(1)
 				}
 				this.rapidPlay = !rapid
+			},
+			handleFileCLick(){
+				this.apiRecordFile()
+			},
+			apiRecordFile(){
+				const videoId = this.id 				
+				recordTeachFile({videoId}).then(res => {
+				})
 			},
 			apiAddAsk() {
 				var data = {
