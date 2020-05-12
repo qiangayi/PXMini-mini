@@ -79,8 +79,8 @@
 								this.fileList[0] = data.Data.fileName
 								this.$emit("upload", this.fileList)
 
-								// console.log(data.Data.card)
-								this.$emit("idCard", data.Data.card.CardNo)
+								console.log(data.Data.card)
+								this.$emit("idCard", data.Data.card)
 							})
 						} else {
 							uploadImg(res.tempFilePaths[0]).then(res => {

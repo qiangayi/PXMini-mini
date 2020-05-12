@@ -9,7 +9,7 @@
 		<form>
 			<view class="cu-form-group margin-top">
 				<view class="title">姓名</view>
-				<input placeholder="请输入姓名" data-field='Name' @input="handleInputChange" name="input"></input>
+				<input placeholder="上传身份证自动识别" v-model="formData.Name" data-field='Name' @input="handleInputChange" name="input"></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">年龄</view>
@@ -88,7 +88,7 @@
 				SwitchC: true,
 				formData: {
 					// Gender: 0,
-					IsRural: 0,
+					IsRural: 1,
 					ClaseId: 0,
 					IdCard: ''
 				},
@@ -136,9 +136,10 @@
 					this.formData[field] = list.join(',')
 				}
 			},
-			handleIdCard(no) {
-				console.log(no)
-				this.formData.IdCard = no
+			handleIdCard(card) {
+				console.log(card)
+				this.formData.IdCard = card.CardNo
+				this.formData.Name = card.Name
 			},
 			handleSubmit() {
 				if (this.valid()) {

@@ -3,7 +3,7 @@
 		<scroll-view scroll-y class="page">
 			
 			<swiper class="swiper" :indicator-dots="true" :autoplay="true" :circular="true" interval="3000" duration="500">
-				<swiper-item v-for="item in bannerList">
+				<swiper-item v-for="item in bannerList" :key="item">
 					<image :src="golbal_getBannerPath(item)" mode="widthFix" class="response"></image>
 				</swiper-item>
 			</swiper>
