@@ -13,23 +13,14 @@
 				<view class="solids" @tap="ChooseImage(0)" :hidden="hideFront">
 					<text class='cuIcon-cameraadd'>正面</text>
 				</view>
-				<view class="bg-img card-img" @tap="ViewImage" :data-url="imgList[0]" :hidden="imgList[0] == ''">
-					<image :src="imgList[0]" mode="aspectFill"></image>
-					<view class="cu-tag bg-red" @tap.stop="handleRemove" :data-index="0">
+				<view class="bg-img card-img" v-for="(item, index) in imgList" :key="item" @tap="ViewImage" :data-url="item" v-if="item != ''">
+					<image :src="item" mode="aspectFill"></image>
+					<view class="cu-tag bg-red" @tap.stop="handleRemove" :data-index="index">
 						<text class='cuIcon-close'></text>
 					</view>
-
-					<!-- <view class="cu-load load-cuIcon loading"></view> -->
-					<view class="cu-load bg-grey loading" ></view>
 				</view>
 				<view class="solids" @tap="ChooseImage(1)" :hidden="hideBack">
 					<text class='cuIcon-cameraadd'>反面</text>
-				</view>
-				<view class="bg-img card-img" @tap="ViewImage" :data-url="imgList[1]" :hidden="imgList[1] == ''">
-					<image :src="imgList[1]" mode="aspectFill"></image>
-					<view class="cu-tag bg-red" @tap.stop="handleRemove" :data-index="1">
-						<text class='cuIcon-close'></text>
-					</view>
 				</view>
 			</view>
 		</view>
@@ -39,7 +30,8 @@
 <script>
 	import {
 		uploadIdCard,
-		uploadImg
+		uploadImg,
+		chooseImage
 	} from '@/api/upload.js'
 	export default {
 		props: {
@@ -62,55 +54,39 @@
 		},
 		methods: {
 			ChooseImage(side) {
-				uni.chooseImage({
-					count: 1, //默认9
-					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-					// sourceType: ['album'], //从相册选择
-					success: (res) => {
-						// if (this.imgList.length != 0) {
-						// 	this.imgList = this.imgList.concat(res.tempFilePaths)
-						// } else {
-						// 	this.imgList = res.tempFilePaths
-						// }
-						if (side == 0) {
-							this.hideFront = true
-						} else {
-							this.hideBack = true
-						}
-						this.imgList[side] = res.tempFilePaths
-						//上传图片文件	
-						// console.log(res.tempFiles)
-						const fileName = this.GetFileName(res.tempFilePaths[0])
-						// console.log(fileName)
-						// if (side == 0) {
-						const formData = this.GetFileForm(fileName, side)
-						uploadIdCard(res.tempFilePaths[0], formData).then(res => {
-							const data = JSON.parse(res[1].data)
-							if (data.Success) {
-								this.fileList[0] = data.Data.fileName
-								this.$emit("upload", this.fileList)
-
-								if (side == 0) {
-									console.log(data.Data.card)
-									this.$emit("idCard", data.Data.card)
-								}
-							} else {
-								uni.showToast({
-									title: "请上传正确图片",
-									icon: "none"
-								})
-								this.funRemoveImg(side)
-							}
-						})
-						// } else {
-						// 	uploadImg(res.tempFilePaths[0]).then(res => {
-						// 		const data = JSON.parse(res[1].data)
-						// 		this.fileList[1] = data.Data.fileName
-						// 		this.$emit("upload", this.fileList)
-						// 	})
-						// }
+				chooseImage().then(data => {
+					var [err, res] = data
+					if (side == 0) {
+						this.hideFront = true
+					} else {
+						this.hideBack = true
 					}
-				});
+					this.imgList[side] = res.tempFilePaths
+					//上传图片文件	
+					const fileName = this.GetFileName(res.tempFilePaths[0])
+					const formData = this.GetFileForm(fileName, side)
+					this.apiUploadImg(res.tempFilePaths[0], formData, side)
+				})
+			},
+			async apiUploadImg(file, formData, side) {
+				uploadIdCard(file, formData).then(res => {
+					const data = JSON.parse(res[1].data)
+					if (data.Success) {
+						this.fileList[side] = data.Data.fileName
+						console.log(data.Data)
+						this.$emit("upload", this.fileList)
+						if (side == 0) {
+							console.log(data.Data.card)
+							this.$emit("idCard", data.Data.card)
+						}
+					} else {
+						uni.showToast({
+							title: "请上传正确图片",
+							icon: "none"
+						})
+						this.funRemoveImg(side)
+					}
+				})
 			},
 			handleRemove(e) {
 				const index = e.currentTarget.dataset.index
@@ -118,7 +94,6 @@
 			},
 			funRemoveImg(index) {
 				this.imgList.splice(index, 1, '')
-				console.log(this.imgList)
 				if (index == 0) {
 					this.hideFront = false
 				} else {
@@ -178,7 +153,8 @@
 		text-align: center;
 		transform: rotate(-45deg);
 	}
-	.cu-load::before{
+
+	.cu-load::before {
 		display: block;
 	}
 </style>

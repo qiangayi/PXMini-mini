@@ -3,10 +3,10 @@
 		<scroll-view scroll-y class="page padding-lr">
 			<image :src="subPicUrl" mode="widthFix" class="response"></image>
 			<view class="solid-bottom">
-				<view class="text-lg padding">
+				<view class="text-lg text-indent">
 					<text class="text-black">{{info.Name}}</text>
 				</view>
-				<view class=" text-df text-indent">
+				<view class=" text-df text-indent padding-tb-sm">
 					<text class="text-gray">{{info.Explanation}}</text>
 				</view>
 				<view class="flex solid-bottom padding justify-center" v-if="subjectId == 0">
@@ -15,9 +15,24 @@
 			</view>
 
 			<!-- <text class="text-black">可跳转</text> -->
-			<view class="padding-top-xs">
+			<view class=" text-df text-indent padding-tb-sm">
+				<text class="text-gray">待学习课程</text>
 				<view class="cu-list menu" :class="sm-border">
-					<view class="video-menu cu-item margin-xs" v-for="(item,index) in info.Children" :data-id="item.Id" :key="index"
+					<view class="video-menu cu-item margin-xs" v-for="(item,index) in unLearnList" :data-id="item.Id" :key="index"
+					 @tap="handleVideoClick(item.Id)" hover-class="navigator-hover">
+						<view class="content">
+							<text class="text-grey">{{item.Title}}</text>
+						</view>
+						<view class="action">
+							<text class="cuIcon-playfill"></text>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class=" text-df text-indent padding-tb-sm">
+				<text class="text-gray">已学习课程</text>
+				<view class="cu-list menu" :class="sm-border">
+					<view class="video-menu cu-item margin-xs" v-for="(item,index) in hasLearnList" :data-id="item.Id" :key="index"
 					 @tap="handleVideoClick(item.Id)" hover-class="navigator-hover">
 						<view class="content">
 							<text class="text-grey">{{item.Title}}</text>
@@ -54,14 +69,15 @@
 					Icon: "",
 					Explanation: "",
 					Children: []
-				}
+				},
+				unLearnList: [],
+				hasLearnList: []
 			}
 		},
 		computed: {
 			...mapGetters(['subjectId'])
 		},
 		onLoad(option) {
-			console.log(getCurrentPages())
 			this.id = option.id
 			this.initInfo()
 		},
@@ -74,8 +90,14 @@
 					res = res.data
 					if (res.Success) {
 						this.info = res.Data
+						this.unLearnList = this.info.Children.filter(o => {
+							return o.Watched == 0
+						})
+						console.log(this.unLearnList)
+						this.hasLearnList = this.info.Children.filter(o => {
+							return o.Watched != 0
+						})
 						this.subPicUrl = this.golbal_getImgUrl(this.info.Icon)
-						console.log(this.subPicUrl)
 					}
 				})
 			},

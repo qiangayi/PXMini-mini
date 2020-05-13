@@ -9,11 +9,15 @@
 		<form>
 			<view class="cu-form-group margin-top">
 				<view class="title">姓名</view>
-				<input placeholder="上传身份证自动识别" v-model="formData.Name" data-field='Name' @input="handleInputChange" name="input"></input>
+				<input placeholder="上传身份证自动识别" disabled v-model="formData.Name" data-field='Name' @input="handleInputChange" name="input"></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">年龄</view>
-				<input placeholder="上传身份证自动识别" v-model="formData.Age" type="number" data-field='Age' @input="handleInputChange" name="input"></input>
+				<input placeholder="上传身份证自动识别" disabled v-model="formData.Age" type="number" data-field='Age' @input="handleInputChange" name="input"></input>
+			</view>
+			<view class="cu-form-group">
+				<view class="title">性别</view>
+				<input placeholder="上传身份证自动识别" disabled v-model="formData.GenderStr" data-field='GenderStr' name="input"></input>
 			</view>
 			<!-- <view class="cu-form-group">
 				<view class="title">性别</view>
@@ -48,7 +52,7 @@
 			</view>
 			<view class="cu-form-group">
 				<view class="title">身份证号</view>
-				<input placeholder="上传身份证自动识别" v-model='formData.IdCard' data-field='IdCard' @input="handleInputChange"></input>
+				<input placeholder="上传身份证自动识别" disabled v-model='formData.IdCard' data-field='IdCard' @input="handleInputChange"></input>
 				<!-- <button class='cu-btn bg-green shadow'>验证码</button> -->
 			</view>
 			<!-- <view class="cu-form-group">
@@ -87,6 +91,7 @@
 				claseInfo: {},
 				SwitchC: true,
 				formData: {
+					GenderStr: '',
 					// Gender: 0,
 					IsRural: 1,
 					ClaseId: 0,
@@ -141,6 +146,7 @@
 				this.formData.IdCard = card.CardNo
 				this.formData.Name = card.Name
 				this.formData.Age = card.Age
+				this.formData.GenderStr = card.Gender
 			},
 			handleSubmit() {
 				const valid = this.valid()
@@ -194,15 +200,14 @@
 					res.msg = '请输入手机号码！'
 					return res
 				}
+				if((FormData.GenderStr == '男' && FormData.Age > 60) || (FormData.GenderStr == '女' && FormData.Age > 55)){
+					res.msg = '年龄超标，无法报名！'
+					return res
+				}
 				if (FormData.Mobile.length != 11) {
 					res.msg = '手机号码必须为11位！'
 					return res
 				}
-				console.log(FormData.IdCardPic.split(','))
-				console.log(FormData.IdCardPic.split(',').some((item) => {
-					console.log(item);
-					return item == ''
-				}))
 				if (!FormData.IdCardPic || FormData.IdCardPic.split(',').some((item) => {
 						console.log(item);
 						return item == ''
