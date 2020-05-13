@@ -13,7 +13,7 @@
 			</view>
 			<view class="cu-form-group">
 				<view class="title">年龄</view>
-				<input placeholder="请输入年龄" type="number" data-field='Age' @input="handleInputChange" name="input"></input>
+				<input placeholder="上传身份证自动识别" v-model="formData.Age" type="number" data-field='Age' @input="handleInputChange" name="input"></input>
 			</view>
 			<!-- <view class="cu-form-group">
 				<view class="title">性别</view>
@@ -140,9 +140,11 @@
 				console.log(card)
 				this.formData.IdCard = card.CardNo
 				this.formData.Name = card.Name
+				this.formData.Age = card.Age
 			},
 			handleSubmit() {
-				if (this.valid()) {
+				const valid = this.valid()
+				if (valid.success) {
 					this.loading = true
 					register(this.formData).then(res => {
 						this.loading = false
@@ -166,6 +168,11 @@
 								icon: "none"
 							})
 						}
+					})
+				} else {
+					uni.showToast({
+						title: valid.msg,
+						icon: "none"
 					})
 				}
 			},
@@ -191,7 +198,15 @@
 					res.msg = '手机号码必须为11位！'
 					return res
 				}
-				if (!FormData.IdCardPic || FormData.IdCardPic.split(',').length != 2) {
+				console.log(FormData.IdCardPic.split(','))
+				console.log(FormData.IdCardPic.split(',').some((item) => {
+					console.log(item);
+					return item == ''
+				}))
+				if (!FormData.IdCardPic || FormData.IdCardPic.split(',').some((item) => {
+						console.log(item);
+						return item == ''
+					})) {
 					res.msg = '请上传身份证正反面！'
 					return res
 				}
