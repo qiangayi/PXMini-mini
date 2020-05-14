@@ -12,7 +12,7 @@ export function getScoreRange(data){
 
 //课程详情
 export function getInfo(data){
-	return request("/sub/GetInfoWithVideo", "GET", data)
+	return request("/sub/WxGetInfoWithVideo", "GET", data)
 }
 
 //课程视频
