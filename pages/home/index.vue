@@ -76,15 +76,8 @@
 			...mapGetters(['token', 'userName', 'subjectId', 'subjectName', 'subjectPic', 'rapidAuth', 'archiveAuth'])
 		},
 		onReady() {
-			// this.initSubject()
-			// console.log("subjectName:", this.subjectName)
-			// console.log(this.page.route)
+			this.initSubject()
 			setTimeout(() => {
-				// console.log("rapidAuth: ", this.rapidAuth)
-				// console.log("archiveAuth: ", this.archiveAuth)
-				// console.log("subjectName:", this.subjectName)
-				// console.log("subjectId:", this.subjectId)
-				this.initSubject()
 			}, 1000)
 		},
 		methods: {

@@ -6,7 +6,7 @@
 			</view>
 			<view class="cu-form-group margin-tb radius">
 				<view class="title">手机号码</view>
-				<input placeholder="请输入手机号码" type="number" data-field='mobile' @input="handleInputChange"></input>
+				<input placeholder="请输入手机号码" type="number" maxlength="11" data-field='mobile' @input="handleInputChange"></input>
 				<!-- <button class='cu-btn bg-green shadow'>验证码</button> -->
 			</view>
 			<view class="cu-form-group margin-tb radius" :hidden="switchD">

@@ -1,8 +1,13 @@
 import request from "@/common/request.js"
 
-//课程列表
+//普通课程列表
 export function getRange(data){
-	return request("/sub/GetRange", "GET", data)
+	return request("/sub/GetNormalRange", "GET", data)
+}
+
+//用户购买的精品课程列表
+export function getScoreRange(data){
+	return request("/sub/GetScoreRange", "GET", data)
 }
 
 //课程详情

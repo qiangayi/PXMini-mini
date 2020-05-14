@@ -23,7 +23,9 @@ const getDefaultState = () => {
 		subjectId: 0,
 		subjectName: '',
 		subjectPic: '',
-		signed: false
+		signed: false,
+		sellerClase: '',
+		clientClase: ''
 		// avatar: ''
 	}
 }
@@ -57,6 +59,12 @@ const mutations = {
 	},
 	SET_SIGNED: (state, signed) => {
 		state.signed = signed
+	},
+	SET_SELLERCLASE: (state, clases) => {
+		state.sellerClase = clases
+	},
+	SET_CLIENTCLASE: (state, clases) => {
+		state.clientClase = clases
 	}
 }
 
@@ -110,7 +118,9 @@ const actions = {
 			score,
 			ArchiveAuth,
 			RapidAuth,
-			signed
+			signed,
+			sellerClase,
+			clientClase
 		} = data
 		// console.log("registered", registered)
 		//判断是否为注册用户
@@ -129,6 +139,8 @@ const actions = {
 			commit("SET_SUBJECTPIC", subjectPic)
 			commit("SET_SCORE", score)
 			commit("SET_SIGNED", signed)
+			commit("SET_SELLERCLASE", sellerClase)
+			commit("SET_CLIENTCLASE", clientClase)
 			console.log(subjectPic)
 			//用户权限
 			dispatch("auth/setRapidAuth", RapidAuth == 1, {

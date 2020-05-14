@@ -12,6 +12,7 @@
 			</view>
 			<view class="margin-tb-sm text-center">
 				<button class="cu-btn round line-blue" @tap="playVideo()">播放</button>
+				<button class="cu-btn round line-blue" @tap="handleFull()">全屏</button>
 				<button class="cu-btn round line-blue" v-if="archiveAuth" @tap="playVideoLastTime()">接上次播放</button>
 				<button class="cu-btn round line-blue" v-if="rapidAuth" @tap="handleRapidPlay(true)">倍速播放</button>
 				<button class="cu-btn round line-blue" v-if="rapidAuth" @tap="handleRapidPlay(false)">普通播放</button>
@@ -143,6 +144,9 @@
 			playVideo() {
 				this.videoContext.play()
 				this.intervalRecordPlaying()
+			},
+			handleFull(){
+				this.videoContext.requestFullScreen()
 			},
 			playVideoLastTime(){
 				const lastTime = this.watchInfo.WatchTime

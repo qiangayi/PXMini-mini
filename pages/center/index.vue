@@ -5,7 +5,10 @@
 			<view class="cu-item " hover-class="navigator-hover">
 				<view class="content">
 					<view class="text-black text-xxl">
-						<view class="text-cut">{{userName}}</view>
+						<view class="text-cut text-xxl">{{userName}}</view>
+					</view>
+					<view class="text-black text-xxl">
+						<view class="text-cut">积分：{{score}}</view>
 					</view>
 				</view>
 				<template>
@@ -69,16 +72,19 @@
 			}
 		},
 		computed: {
-			...mapGetters(['subjectId', 'userName', 'signed', 'claseId'])
+			...mapGetters(['subjectId', 'userName', 'score', 'signed', 'claseId', 'sellerClase', 'clientClase'])
 		},
 		mounted() {
-			// console.log(this.claseId)
-				// this.toolData.push({name: "模拟报名", target: 'register'})
 			if(this.claseId != 0){
 				this.toolData.push({name: "在线考试", target: 'exam'})
 				this.toolData.push({name: "积分商城", target: 'shop'})
-				// console.log(this.toolData)
 			}
+			// if(this.sellerClase != ''){
+			// 	this.toolData.push({name: "班级资料", target: 'clase'})
+			// }
+			// if(this.clientClase != ''){
+			// 	this.toolData.push({name: "查看班级", target: 'clase'})
+			// }
 		},
 		methods: {
 			navigate(type) {

@@ -15,9 +15,14 @@
 				</view>
 			</view>
 
-			<view class="cu-bar bg-white tabbar border shop foot">
-				<view class="bg-red submit" @tap="handleOrderClick">立即订购</view>
+			<view class="box margin-tb">
+				<view class="cu-bar btn-group ">
+					<button class="cu-btn bg-green shadow-blur lg" :disabled="loading" :loading="loading" @tap="handleOrderClick">立即购买</button>
+				</view>
 			</view>
+			<!-- <view class="cu-bar bg-white tabbar border shop foot">
+				<view class="bg-red submit" @tap="handleOrderClick">立即订购</view>
+			</view> -->
 		</scroll-view>
 	</view>
 </template>
@@ -31,7 +36,8 @@
 		data() {
 			return {
 				id: 0,
-				info: {}
+				info: {},
+				loading: false
 			}
 		},
 		onLoad(options) {
@@ -65,12 +71,14 @@
 			},
 			apiSubmitOrder() {
 				const id = this.id
+				this.loading = true
 				uni.showLoading({
 					title: '加载中'
 				});
 				addOrder({
 					commodityId: id
 				}).then(res => {
+					this.loading = false
 					uni.hideLoading();
 					res = res.data
 					uni.showToast({
