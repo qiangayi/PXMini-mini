@@ -30,6 +30,7 @@
 					</view>
 				</view>
 				<view class="text-df text-gray text-center padding-tb-sm" v-else><text>当前没有正在学习的课程</text></view>
+				
 				<!-- 所有课程 -->
 				<view class="cu-bar solid-bottom">
 					<view class="action">
@@ -40,6 +41,18 @@
 
 				<!-- 课程列表 -->
 				<subList :list="subData" @click="handleSubClick"></subList>
+				<template v-if='boutiques'>
+				<!-- 精品课程 -->
+				<view class="cu-bar solid-bottom">
+					<view class="action">
+						<text class="cuIcon-titles text-green"></text>
+						<text class="text-df text-bold">精品课程</text>
+					</view>
+				</view>
+
+				<!-- 课程列表 -->
+				<subList :list="boutiqueData" @click="handleSubClick"></subList>
+				</template>
 			</view>
 
 			<view class="cu-tabbar-height"></view>
@@ -54,31 +67,31 @@
 		mapState
 	} from 'vuex';
 	import {
-		getRange
+		getRange,
+		getScoreRange
 	} from '@/api/subject.js'
 
 	export default {
 		data() {
 			return {
 				bannerList: ['banner1.png', 'banner2.png', 'banner3.png', 'banner4.png', 'banner5.png'],
-				subData: []
+				subData: [],
+				boutiqueData: []
 			};
 		},
 		components: {
 			subList
 		},
-		watch: {
-			subjectId(val) {
-				console.log("subjectid", val)
-			}
-		},
 		computed: {
-			...mapGetters(['token', 'userName', 'subjectId', 'subjectName', 'subjectPic', 'rapidAuth', 'archiveAuth'])
+			...mapGetters(['token', 'userName', 'subjectId', 'subjectName', 'subjectPic', 'rapidAuth', 'archiveAuth','boutiques'])
 		},
 		onReady() {
 			this.initSubject()
-			setTimeout(() => {
-			}, 1000)
+			setTimeout(o =>{
+				if(this.boutiques){
+					this.initBoutieuq()
+				}
+			}, 3000)
 		},
 		methods: {
 			initSubject() {
@@ -88,15 +101,19 @@
 				}).then(res => {
 					res = res.data
 					if (res.Success) {
-						// if(res.Data.length > 0){
-						// 	res.Data.map(o => {
-						// 		console.log("id:", o.Id, "  subid:", this.subjectId)
-						// 		if(o.Id != this.subjectId){
-						// 			this.subData.push(o)
-						// 		}
-						// 	})
-						// }
 						this.subData = res.Data
+					}
+				})
+			},
+			initBoutieuq() {
+				this.boutiqueData = []
+				const ids = this.boutiques
+				getScoreRange({
+					ids
+				}).then(res => {
+					res = res.data
+					if (res.Success) {
+						this.boutiqueData = res.Data
 					}
 				})
 			},

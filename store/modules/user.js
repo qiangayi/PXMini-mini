@@ -25,7 +25,9 @@ const getDefaultState = () => {
 		subjectPic: '',
 		signed: false,
 		sellerClase: '',
-		clientClase: ''
+		clientClase: '',
+		//精品课程
+		boutiques: ''
 		// avatar: ''
 	}
 }
@@ -65,6 +67,9 @@ const mutations = {
 	},
 	SET_CLIENTCLASE: (state, clases) => {
 		state.clientClase = clases
+	},
+	SET_BOUTIQUES: (state, boutiques) => {
+		state.boutiques = boutiques
 	}
 }
 
@@ -120,9 +125,10 @@ const actions = {
 			RapidAuth,
 			signed,
 			sellerClase,
-			clientClase
+			clientClase,
+			boutiques
 		} = data
-		// console.log("registered", registered)
+		// console.log("boutiques", boutiques)
 		//判断是否为注册用户
 		if (registered) {
 			//初始化用户信息
@@ -130,7 +136,7 @@ const actions = {
 			//type: 0： 班级学员,1销售,2普通学员
 			commit("SET_TYPE", type)
 			if (type == 0) {
-				console.log("claseid", claseId)
+				// console.log("claseid", claseId)
 				commit("SET_CLASEID", claseId ? claseId : 0)
 				commit("SET_CLASENAME", claseName ? claseName : '')
 			}
@@ -141,7 +147,8 @@ const actions = {
 			commit("SET_SIGNED", signed)
 			commit("SET_SELLERCLASE", sellerClase)
 			commit("SET_CLIENTCLASE", clientClase)
-			console.log(subjectPic)
+			commit("SET_BOUTIQUES", boutiques)
+			// console.log(subjectPic)
 			//用户权限
 			dispatch("auth/setRapidAuth", RapidAuth == 1, {
 				root: true

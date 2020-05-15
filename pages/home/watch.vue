@@ -8,7 +8,7 @@
 			</view>
 			<view class="flex align-center justify-center">
 				<video id="myVideo" :src="videoSrc" :initial-time="startTime" :show-play-btn="false" :show-center-play-btn="false" @ended="handleEnded"
-				 @timeupdate="handleTimeUpdate" @waiting="handleWaiting" @loadedmetadata="handleLoadedmetadata" :enable-progress-gesture="false" :controls="false"></video>
+				 @timeupdate="handleTimeUpdate" @waiting="handleWaiting" @loadedmetadata="handleLoadedmetadata" :enable-progress-gesture="false" controls></video>
 			</view>
 			<view class="margin-tb-sm text-center">
 				<button class="cu-btn round line-blue" @tap="playVideo()">播放</button>

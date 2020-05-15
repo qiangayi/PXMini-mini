@@ -8,6 +8,7 @@ const getters = {
 	subjectId: state => state.user.subjectId,
 	subjectName: state => state.user.subjectName,
 	subjectPic: state => state.user.subjectPic,
+	boutiques: state => state.user.boutiques,
 	rapidAuth: state => state.auth.rapidAuth,
 	archiveAuth: state => state.auth.archiveAuth,
 	sellerClase: state => state.auth.sellerClase,

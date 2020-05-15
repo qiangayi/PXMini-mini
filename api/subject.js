@@ -7,7 +7,7 @@ export function getRange(data){
 
 //用户购买的精品课程列表
 export function getScoreRange(data){
-	return request("/sub/GetScoreRange", "GET", data)
+	return request("/sub/GetScoreRangeByIds", "GET", data)
 }
 
 //课程详情
