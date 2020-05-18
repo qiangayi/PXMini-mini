@@ -12,7 +12,7 @@
 						<view class="flex-sub">{{child.Content}}</view>
 					</view>
 				</view>
-				<view class="margin-top-sm flex justify-end">
+				<!-- <view class="margin-top-sm flex justify-end">
 					<view>
 						<text class="text-gray" :hidden="showReplyIndex == index" @tap="HandleReplyClick(index)">回复</text>
 					</view>
@@ -20,7 +20,7 @@
 						<input class="solid-bottom" :adjust-position="false" v-model="reply" :focus="false" maxlength="300" cursor-spacing="10"></input>
 						<button class="cu-btn bg-green shadow" @tap="HandleReplySubmit($event, item.Id)">发送</button>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 	</view>
