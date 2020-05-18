@@ -8,7 +8,7 @@
 						<view class="text-cut text-xxl">{{userName}}</view>
 					</view>
 					<view class="text-black text-xxl">
-						<view class="text-cut">积分：{{score}}</view>
+						<view class="text-cut">学分：{{score}}</view>
 					</view>
 				</view>
 				<template>

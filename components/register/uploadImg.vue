@@ -18,7 +18,7 @@
 						</view>
 					</view>
 					<view class="solids" @tap="ChooseImage(index)" :hidden="item != ''">
-						<text class='cuIcon-cameraadd'></text>
+						<text class='cuIcon-cameraadd'>{{names[index]}}</text>
 					</view>
 				</block>
 			</view>
@@ -40,6 +40,12 @@
 			limit: {
 				type: Number,
 				default: 0,
+			},
+			names: {
+				type: Array,
+				default: () => {
+					return []
+				}
 			}
 		},
 		data() {

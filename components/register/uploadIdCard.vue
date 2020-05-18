@@ -56,6 +56,9 @@
 			ChooseImage(side) {
 				chooseImage().then(data => {
 					var [err, res] = data
+					if(!res){
+						return
+					}
 					if (side == 0) {
 						this.hideFront = true
 					} else {

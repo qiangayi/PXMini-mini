@@ -10,7 +10,7 @@
 						<view class="text-cut">{{item.Directions}}</view>
 					</view>
 					<view class="text-red text-df flex">
-						<view class="text-cut">{{item.Price}}积分</view>
+						<view class="text-cut">{{item.Price}}学分</view>
 					</view>
 				</view>
 			</view>

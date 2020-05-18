@@ -4,7 +4,7 @@
 			<image src="@/static/home-banner.png" mode="widthFix" class="response"></image>
 			<view class="">
 				<view class="text-xxl padding-xs">
-					<text class=" text-red">{{info.Price}}积分</text>
+					<text class=" text-red">{{info.Price}}学分</text>
 				</view>
 
 				<view class="solid-bottom text-xl padding-xs">

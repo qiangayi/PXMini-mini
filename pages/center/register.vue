@@ -61,8 +61,8 @@
 			</view> -->
 
 			<uploadIdCard :title="'身份证上传'" :limit="2" @idCard='handleIdCard' @upload="handleUpload($event,'IdCardPic')"></uploadIdCard>
-			<uploadImg :title="'户口本上传'" :limit="2" @upload="handleUpload($event,'HouseholdRegisterPic')"></uploadImg>
-			<uploadImg :title="'失业证上传'" :limit="1" @upload="handleUpload($event,'UnemploymentPic')"></uploadImg>
+			<uploadImg :title="'户口本上传'" :names="['户主页', '本人页']" :limit="2" @upload="handleUpload($event,'HouseholdRegisterPic')"></uploadImg>
+			<uploadImg :title="'失业证上传'" :names="['']" :limit="1" @upload="handleUpload($event,'UnemploymentPic')"></uploadImg>
 
 			<view class="box margin-tb">
 				<view class="cu-bar btn-group ">
@@ -215,8 +215,15 @@
 					res.msg = '请上传身份证正反面！'
 					return res
 				}
-				if (FormData.IsRural && !FormData.UnemploymentPic) {
-					res.msg = '非城镇户口请上传失业证！'
+				console.log(FormData.HouseholdRegisterPic)
+				if (!FormData.HouseholdRegisterPic || FormData.HouseholdRegisterPic.split(',').length < 2 || FormData.HouseholdRegisterPic.split(',').some((item) => {
+						return item == ''
+					})) {
+					res.msg = '请上传户口本！'
+					return res
+				}
+				if (!FormData.IsRural && !FormData.UnemploymentPic) {
+					res.msg = '城镇户口请上传失业证！'
 					return res
 				}
 				res.success = true

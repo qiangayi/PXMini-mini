@@ -1,12 +1,12 @@
 <template>
 
 	<view class="cu-list menu sm-border margin-top-xs">
-		<view class="video-menu cu-item" v-for="(item, index) in fileData" :key="index">
+		<view class="video-menu cu-item" v-for="(item, index) in fileData" :key="index"  @tap="handleOpenClick(item.AnnexId)">
 			<view class="content">
 				<text class="text-grey">{{item.Title}}</text>
 			</view>
 			<view class="action">
-				<text class="cuIcon-playfill" @tap="handleOpenClick(item.AnnexId)"></text>
+				<text class="cuIcon-playfill"></text>
 			</view>
 		</view>
 	</view>

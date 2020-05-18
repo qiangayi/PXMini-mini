@@ -7,8 +7,9 @@
 				<text class="text-bold">{{video.Title}}</text>
 			</view>
 			<view class="flex align-center justify-center">
-				<video id="myVideo" :src="videoSrc" :initial-time="startTime" :show-play-btn="false" :show-center-play-btn="false" @ended="handleEnded"
-				 @timeupdate="handleTimeUpdate" @waiting="handleWaiting" @loadedmetadata="handleLoadedmetadata" :enable-progress-gesture="false" controls></video>
+				<video id="myVideo" :src="videoSrc" :initial-time="startTime" :show-play-btn="false" :show-center-play-btn="false"
+				 @ended="handleEnded" @timeupdate="handleTimeUpdate" @waiting="handleWaiting" @loadedmetadata="handleLoadedmetadata"
+				 :enable-progress-gesture="false" controls></video>
 			</view>
 			<view class="margin-tb-sm text-center">
 				<button class="cu-btn round line-blue" @tap="playVideo()">播放</button>
@@ -145,10 +146,10 @@
 				this.videoContext.play()
 				this.intervalRecordPlaying()
 			},
-			handleFull(){
+			handleFull() {
 				this.videoContext.requestFullScreen()
 			},
-			playVideoLastTime(){
+			playVideoLastTime() {
 				const lastTime = this.watchInfo.WatchTime
 				this.startTime = lastTime
 				this.playVideo()
@@ -202,7 +203,7 @@
 				}
 				this.apiAddAsk()
 			},
-			handleReply(data){
+			handleReply(data) {
 				data.id = this.id
 				this.apiAddReply(data)
 			},
@@ -218,10 +219,10 @@
 				// console.log(currentTime)
 				// console.log(duration)
 			},
-			handleLoadedmetadata(){
+			handleLoadedmetadata() {
 				console.log("load")
 			},
-			handleWaiting(){
+			handleWaiting() {
 				console.log("waiting")
 			},
 			handleRapidPlay(rapid) {
@@ -232,12 +233,19 @@
 				}
 				this.rapidPlay = !rapid
 			},
-			handleFileCLick(){
+			handleFileCLick() {
 				this.apiRecordFile()
 			},
-			apiRecordFile(){
-				const videoId = this.id 				
-				recordTeachFile({videoId}).then(res => {
+			apiRecordFile() {
+				uni.showToast({
+					title: '视频课件下载中',
+					duration: 2000,
+					icon: "none"
+				});
+				const videoId = this.id
+				recordTeachFile({
+					videoId
+				}).then(res => {
 				})
 			},
 			apiAddAsk() {
