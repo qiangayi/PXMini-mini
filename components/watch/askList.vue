@@ -4,12 +4,12 @@
 			<view class="content">
 				<view class="text-grey"><!-- {{item.Name}} -->提问：</view>
 				<view class="text-gray text-content text-df">
-					问：{{item.Content}}
+					问：{{item.Question}}
 				</view>
-				<view class="bg-gray padding-xs radius margin-top-xs text-sm" v-for="child in item.Children" :key="child.Id">
+				<view class="bg-gray padding-xs radius margin-top-xs text-sm" v-if="item.Answer != ''" >
 					<view class="flex">
 						<view><!-- {{child.Name}}： --> 回答：</view>
-						<view class="flex-sub">{{child.Content}}</view>
+						<view class="flex-sub">{{item.Answer}}</view>
 					</view>
 				</view>
 				<!-- <view class="margin-top-sm flex justify-end">

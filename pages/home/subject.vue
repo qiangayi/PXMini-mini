@@ -15,8 +15,8 @@
 			</view>
 
 			<!-- <text class="text-black">可跳转</text> -->
-			<view class=" text-df text-indent padding-tb-sm">
-				<text class="text-gray">待学习课程</text>
+			<view class=" text-lg text-indent padding-tb-sm">
+				<text class="text-green">待学习课程</text>
 				<view class="cu-list menu" :class="sm-border">
 					<view class="video-menu cu-item margin-xs" v-for="(item,index) in unLearnList" :data-id="item.Id" :key="index"
 					 @tap="handleVideoClick(item.Id)" hover-class="navigator-hover">
@@ -29,11 +29,25 @@
 					</view>
 				</view>
 			</view>
-			<view class=" text-df text-indent padding-tb-sm">
-				<text class="text-gray">已学习课程</text>
+			<view class=" text-lg text-indent padding-tb-sm">
+				<text class="text-orange">已学习课程</text>
 				<view class="cu-list menu" :class="sm-border">
 					<view class="video-menu cu-item margin-xs" v-for="(item,index) in hasLearnList" :data-id="item.Id" :key="index"
 					 @tap="handleVideoClick(item.Id)" hover-class="navigator-hover">
+						<view class="content">
+							<text class="text-grey">{{item.Title}}</text>
+						</view>
+						<view class="action">
+							<text class="cuIcon-playfill"></text>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class=" text-lg text-indent padding-tb-sm">
+				<text class="text-grey">未解锁课程</text>
+				<view class="cu-list menu" :class="sm-border">
+					<view class="video-menu cu-item margin-xs" v-for="(item,index) in lockList" :data-id="item.Id" :key="index"
+					 @tap="handleLockClick(item.Id)" hover-class="navigator-hover">
 						<view class="content">
 							<text class="text-grey">{{item.Title}}</text>
 						</view>
@@ -71,7 +85,8 @@
 					Children: []
 				},
 				unLearnList: [],
-				hasLearnList: []
+				hasLearnList: [],
+				lockList: []
 			}
 		},
 		computed: {
@@ -90,15 +105,23 @@
 					res = res.data
 					if (res.Success) {
 						this.info = res.Data
-						this.unLearnList = this.info.Children.filter(o => {
-							return o.Watched == 0
-						})
-						console.log(this.unLearnList)
-						this.hasLearnList = this.info.Children.filter(o => {
-							return o.Watched != 0
-						})
+						this.funDataClassify(this.info.Children)
 						this.subPicUrl = this.golbal_getImgUrl(this.info.Icon)
 					}
+				})
+			},
+			funDataClassify(data){
+				const unlockList = data.filter(o => {
+					return o.LockFlag == 0
+				})
+				this.unLearnList = unlockList.filter(o => {
+					return o.Watched == 0
+				})
+				this.hasLearnList = unlockList.filter(o => {
+					return o.Watched != 0
+				})
+				this.lockList = data.filter(o => {
+					return o.LockFlag == 1
 				})
 			},
 			handleStudyClick(e) {
@@ -130,6 +153,13 @@
 					return;
 				}
 				this.navigateToVideo(id)
+			},
+			handleLockClick(){				
+				uni.showToast({
+					title: "请等待视频解锁",
+					icon: "none",
+					duration: 1000
+				});
 			},
 			navigateToVideo(id) {
 				const url = '/pages/home/watch?id=' + id;
