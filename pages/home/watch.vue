@@ -8,17 +8,14 @@
 			</view>
 			<view class="flex align-center justify-center">
 				<video id="myVideo" :src="videoSrc" :initial-time="startTime" :show-play-btn="false" :show-center-play-btn="false"
-				 @ended="handleEnded" @timeupdate="handleTimeUpdate" @waiting="handleWaiting" @loadedmetadata="handleLoadedmetadata"
+				 @play="handlePlay" @ended="handleEnded" @timeupdate="handleTimeUpdate" @waiting="handleWaiting" @loadedmetadata="handleLoadedmetadata"
 				 :enable-progress-gesture="false" controls></video>
 			</view>
 			<view class="margin-tb-sm text-center">
 				<button class="cu-btn round line-blue" @tap="playVideo()">播放</button>
+				<button class="cu-btn round line-blue" @tap="pauseVideo()">暂停</button>
 				<button class="cu-btn round line-blue" @tap="handleFull()">全屏</button>
-				<button class="cu-btn round line-blue" v-if="archiveAuth" @tap="playVideoLastTime()">接上次播放</button>
-				<button class="cu-btn round line-blue" v-if="rapidAuth" @tap="handleRapidPlay(true)">倍速播放</button>
-				<button class="cu-btn round line-blue" v-if="rapidAuth" @tap="handleRapidPlay(false)">普通播放</button>
 			</view>
-			<!-- https://www.nwedo.net/nsp/StreamingAssets/Movie/1.mp4 -->
 
 			<view class="cu-form-group align-start">
 				<view class="title">提问</view>
@@ -85,8 +82,9 @@
 					question: ""
 				},
 				//间隔时间
-				intervalTime: 10,
+				intervalTime: 30,
 				startTime: 0,
+				recordTime: 1,
 				intervalId: 0,
 				videoContext: "",
 				currentTime: 0,
@@ -128,6 +126,11 @@
 						this.setVideoInfo(Video)
 						this.fileList = Files
 						this.watchInfo = Watch
+						if (this.archiveAuth) {
+							const lastTime = this.watchInfo.WatchTime
+							this.startTime = lastTime
+							this.recordTime = lastTime + 1
+						}
 						// this.videoContext.play()
 					}
 				})
@@ -144,46 +147,43 @@
 			},
 			playVideo() {
 				this.videoContext.play()
-				this.intervalRecordPlaying()
+			},
+			pauseVideo() {
+				this.videoContext.pause()
 			},
 			handleFull() {
 				this.videoContext.requestFullScreen()
-			},
-			playVideoLastTime() {
-				const lastTime = this.watchInfo.WatchTime
-				this.startTime = lastTime
-				this.playVideo()
 			},
 			setVideoInfo(video) {
 				this.video = video
 				this.videoSrc = this.golbal_getVideoUrl(video.VideoName)
 			},
-			//定时记录播放时间
-			intervalRecordPlaying() {
-				const _this = this
-				const curRoute = _this.funGetCurRoute();
-				//未处于视频页面取消当前定时
-				if (_this.videoRoute != curRoute) {
-					return;
+			async apiRecordWatch() {
+				const data = {
+					id: this.id,
+					timeLength: parseInt(this.currentTime),
+					videoLength: parseInt(this.duration)
 				}
-				_this.intervalId = setTimeout(() => {
-					const data = {
-						id: _this.id,
-						timeLength: parseInt(_this.currentTime),
-						videoLength: parseInt(_this.duration)
-					}
+				return new Promise((resolve, reject) => {
 					recordWatch(data).then(res => {
 						res = res.data
 						console.log(res)
 						if (res.Success) {
-							_this.intervalRecordPlaying()
-							// this.videoContext.play()
+							resolve()
 						}
 					})
-				}, _this.intervalTime * 1000)
+				})
+			},
+			handlePlay() {
+				//有权限的默认倍速播放
+				if (this.rapidAuth) {
+					this.videoContext.playbackRate(1.5)
+				}
 			},
 			handleEnded() {
 				clearInterval(this.intervalId)
+				this.apiRecordWatch()
+				this.recordTime = 1
 			},
 			handleInputChange(e) {
 				const _this = this
@@ -216,22 +216,17 @@
 				} = detail
 				this.currentTime = currentTime
 				this.duration = duration
-				// console.log(currentTime)
-				// console.log(duration)
+				if (parseInt(currentTime) == this.recordTime) {
+					console.log(parseInt(currentTime) + this.intervalTime)
+					this.recordTime = parseInt(currentTime) + this.intervalTime
+					this.apiRecordWatch()
+				}
 			},
 			handleLoadedmetadata() {
 				console.log("load")
 			},
 			handleWaiting() {
 				console.log("waiting")
-			},
-			handleRapidPlay(rapid) {
-				if (rapid) {
-					this.videoContext.playbackRate(1.5)
-				} else {
-					this.videoContext.playbackRate(1)
-				}
-				this.rapidPlay = !rapid
 			},
 			handleFileCLick() {
 				this.apiRecordFile()
@@ -245,8 +240,7 @@
 				const videoId = this.id
 				recordTeachFile({
 					videoId
-				}).then(res => {
-				})
+				}).then(res => {})
 			},
 			apiAddAsk() {
 				var data = {

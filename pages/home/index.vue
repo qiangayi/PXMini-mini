@@ -3,8 +3,8 @@
 		<scroll-view scroll-y class="page">
 			
 			<swiper class="swiper" :indicator-dots="true" :autoplay="true" :circular="true" interval="3000" duration="500">
-				<swiper-item v-for="item in bannerList" :key="item">
-					<image :src="golbal_getBannerPath(item)" mode="widthFix" class="response"></image>
+				<swiper-item v-for="item in bannerData" :key="item">
+					<image :src="golbal_getImgUrl(item)" mode="widthFix" class="response"></image>
 				</swiper-item>
 			</swiper>
 			<view class="padding-lr ">
@@ -74,7 +74,7 @@
 	export default {
 		data() {
 			return {
-				bannerList: ['banner1.png', 'banner2.png', 'banner3.png', 'banner4.png', 'banner5.png'],
+				// bannerList: ['banner1.png', 'banner2.png', 'banner3.png', 'banner4.png', 'banner5.png'],
 				subData: [],
 				boutiqueData: []
 			};
@@ -83,7 +83,13 @@
 			subList
 		},
 		computed: {
-			...mapGetters(['token', 'userName', 'subjectId', 'subjectName', 'subjectPic', 'rapidAuth', 'archiveAuth','boutiques'])
+			...mapGetters(['token', 'userName', 'subjectId', 'subjectName', 'subjectPic', 'rapidAuth', 'archiveAuth','boutiques', 'bannerList']),
+			bannerData(){
+				if(this.bannerList && this.bannerList.length > 0){
+					return this.bannerList.split(',')
+				}
+				return []
+			}
 		},
 		onReady() {
 			this.initSubject()

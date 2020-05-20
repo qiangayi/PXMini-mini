@@ -17,6 +17,7 @@ const getDefaultState = () => {
 		type: '',
 		claseId: 0,
 		claseName: '',
+		claseSellName: '',
 		//学分
 		score: '',
 		//当前课程
@@ -27,7 +28,8 @@ const getDefaultState = () => {
 		sellerClase: '',
 		clientClase: '',
 		//精品课程
-		boutiques: ''
+		boutiques: '',
+		bannerList: ''
 		// avatar: ''
 	}
 }
@@ -46,6 +48,9 @@ const mutations = {
 	},
 	SET_CLASENAME: (state, claseName) => {
 		state.claseName = claseName
+	},
+	SET_CLASESELLNAME: (state, claseSellName) => {
+		state.claseSellName = claseSellName
 	},
 	SET_SUBJECTID: (state, subjectId) => {
 		state.subjectId = subjectId
@@ -70,6 +75,9 @@ const mutations = {
 	},
 	SET_BOUTIQUES: (state, boutiques) => {
 		state.boutiques = boutiques
+	},
+	SET_BANNERLIST: (state, bannerList) => {
+		state.bannerList = bannerList
 	}
 }
 
@@ -117,6 +125,7 @@ const actions = {
 			type,
 			claseId,
 			claseName,
+			claseSellName,
 			subjectId,
 			subjectName,
 			subjectPic,
@@ -126,7 +135,8 @@ const actions = {
 			signed,
 			sellerClase,
 			clientClase,
-			boutiques
+			boutiques,
+			bannerList
 		} = data
 		// console.log("boutiques", boutiques)
 		//判断是否为注册用户
@@ -148,6 +158,8 @@ const actions = {
 			commit("SET_SELLERCLASE", sellerClase)
 			commit("SET_CLIENTCLASE", clientClase)
 			commit("SET_BOUTIQUES", boutiques)
+			commit("SET_BANNERLIST", bannerList)
+			commit("SET_CLASESELLNAME", claseSellName)
 			// console.log(subjectPic)
 			//用户权限
 			dispatch("auth/setRapidAuth", RapidAuth == 1, {

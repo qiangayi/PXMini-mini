@@ -7,8 +7,14 @@
 					<view class="text-black text-xxl">
 						<view class="text-cut text-xxl">{{userName}}</view>
 					</view>
-					<view class="text-black text-xxl">
+					<view class="text-black text-xl">
 						<view class="text-cut">学分：{{score}}</view>
+					</view>
+					<view class="text-black text-xl">
+						<view class="text-cut">班级：{{claseName}}</view>
+					</view>
+					<view class="text-black text-xl" v-if='claseSellName != ""'>
+						<view class="text-cut">班主任：{{claseSellName}}</view>
 					</view>
 				</view>
 				<template>
@@ -72,7 +78,7 @@
 			}
 		},
 		computed: {
-			...mapGetters(['subjectId', 'userName', 'score', 'signed', 'claseId', 'sellerClase', 'clientClase'])
+			...mapGetters(['subjectId', 'userName', 'score', 'signed', 'claseId', 'claseName', 'sellerClase', 'clientClase', 'claseSellName'])
 		},
 		mounted() {
 			if(this.claseId != 0){
@@ -135,6 +141,9 @@
 <style scoped>
 	.cu-list.menu-avatar>.cu-item .action {
 		width: 200rpx
+	}
+	.cu-list.menu-avatar>.cu-item {
+		height: 160rpx;
 	}
 
 	.cu-list.menu-avatar>.cu-item .content {
