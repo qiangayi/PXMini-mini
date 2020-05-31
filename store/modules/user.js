@@ -18,6 +18,8 @@ const getDefaultState = () => {
 		claseId: 0,
 		claseName: '',
 		claseSellName: '',
+		claseStart: '',
+		claseEnd: '',
 		//学分
 		score: '',
 		//当前课程
@@ -51,6 +53,12 @@ const mutations = {
 	},
 	SET_CLASESELLNAME: (state, claseSellName) => {
 		state.claseSellName = claseSellName
+	},
+	SET_CLASESTART: (state, claseStart) => {
+		state.claseStart = claseStart
+	},
+	SET_CLASEEND: (state, claseEnd) => {
+		state.claseEnd = claseEnd
 	},
 	SET_SUBJECTID: (state, subjectId) => {
 		state.subjectId = subjectId
@@ -125,6 +133,8 @@ const actions = {
 			type,
 			claseId,
 			claseName,
+			claseStart,
+			claseEnd,
 			claseSellName,
 			subjectId,
 			subjectName,
@@ -149,6 +159,8 @@ const actions = {
 				// console.log("claseid", claseId)
 				commit("SET_CLASEID", claseId ? claseId : 0)
 				commit("SET_CLASENAME", claseName ? claseName : '')
+				commit("SET_CLASESTART", claseStart)
+				commit("SET_CLASEEND", claseEnd)
 			}
 			commit("SET_SUBJECTID", subjectId)
 			commit("SET_SUBJECTNAME", subjectName)

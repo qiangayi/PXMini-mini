@@ -5,6 +5,8 @@ const getters = {
 	score: state => state.user.score,
 	claseId: state => state.user.claseId,
 	claseName: state => state.user.claseName,
+	claseStart: state => state.user.claseStart,
+	claseEnd: state => state.user.claseEnd,
 	claseSellName: state => state.user.claseSellName,
 	signed: state => state.user.signed,
 	subjectId: state => state.user.subjectId,
@@ -12,9 +14,9 @@ const getters = {
 	subjectPic: state => state.user.subjectPic,
 	boutiques: state => state.user.boutiques,
 	bannerList: state => state.user.bannerList,
+	sellerClase: state => state.user.sellerClase,
+	clientClase: state => state.user.clientClase,
 	rapidAuth: state => state.auth.rapidAuth,
 	archiveAuth: state => state.auth.archiveAuth,
-	sellerClase: state => state.auth.sellerClase,
-	clientClase: state => state.auth.clientClase,
 }
 export default getters

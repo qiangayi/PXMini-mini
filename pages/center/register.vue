@@ -114,7 +114,7 @@
 			init() {
 				const id = this.formData.ClaseId
 				uni.showLoading({
-					title: "加载中"
+					title: "班级加载中"
 				})
 				get({
 					id

@@ -1,34 +1,65 @@
 <template>
 	<view>
-
 		<view class="cu-list menu-avatar ">
-			<view class="cu-item " hover-class="navigator-hover">
+			<view class="cu-item topInfo" hover-class="navigator-hover">
 				<view class="content">
 					<view class="text-black text-xxl">
-						<view class="text-cut text-xxl">{{userName}}</view>
+						<view class="text-xxl">{{userName}}</view>
 					</view>
 					<view class="text-black text-xl">
 						<view class="text-cut">学分：{{score}}</view>
 					</view>
-					<view class="text-black text-xl">
+					<!-- <view class="text-black text-xl">
 						<view class="text-cut">班级：{{claseName}}</view>
 					</view>
 					<view class="text-black text-xl" v-if='claseSellName != ""'>
 						<view class="text-cut">班主任：{{claseSellName}}</view>
-					</view>
+					</view> -->
 				</view>
 				<template>
-					<view :hidden='!signed' class="action">
+					<view :hidden='!signed' class="action flex justify-end padding-right-xs">
 						<button class="cu-btn radius bg-gray " disabled>已签到</button>
 					</view>
-					<view :hidden='signed || loading'  class="action" @tap="handleClick(item)">
+					<view :hidden='signed || loading' class="action flex justify-end padding-right-xs" @tap="handleClick(item)">
 						<button class="cu-btn radius bg-green">签到</button>
 					</view>
-					<view :hidden='signed || !loading' class="action" >
+					<view :hidden='signed || !loading' class="action flex justify-end padding-right-xs">
 						<button class="cu-btn radius bg-green" loading="">签到中</button>
 					</view>
 				</template>
 			</view>
+			<template v-if="claseId != 0">
+				<view class="cu-bar solid-bottom">
+					<view class="action">
+						<text class="cuIcon-titles text-green"></text>
+						<text class="text-lg text-bold">班级信息</text>
+					</view>
+				</view>
+				<view class="cu-item">
+					<view class="content">
+						<text class="text-grey text-xl">班级</text>
+					</view>
+					<view class="action flex justify-end padding-right-xs">
+						<text class="text-grey text-xl">{{claseName}}</text>
+					</view>
+				</view>
+				<view class="cu-item" v-if="claseStart">
+					<view class="content">
+						<text class="text-grey text-xl">课程时间</text>
+					</view>
+					<view class="action flex justify-end padding-right-xs">
+						<text class="text-grey text-df">{{claseStart}}至{{claseEnd}}</text>
+					</view>
+				</view>
+				<view class="cu-item">
+					<view class="content">
+						<text class="text-grey text-xl">班主任</text>
+					</view>
+					<view class="action flex justify-end padding-right-xs">
+						<text class="text-grey text-xl">{{claseSellName}}</text>
+					</view>
+				</view>
+			</template>
 
 			<!-- 我的任务 -->
 			<view class="cu-bar solid-bottom">
@@ -78,19 +109,28 @@
 			}
 		},
 		computed: {
-			...mapGetters(['subjectId', 'userName', 'score', 'signed', 'claseId', 'claseName', 'sellerClase', 'clientClase', 'claseSellName'])
+			...mapGetters(['subjectId', 'userName', 'score', 'signed', 'claseId', 'claseStart', 'claseEnd', 'claseName', 'sellerClase', 'clientClase',
+				'claseSellName'
+			])
 		},
 		mounted() {
-			if(this.claseId != 0){
-				this.toolData.push({name: "在线考试", target: 'exam'})
-				this.toolData.push({name: "积分商城", target: 'shop'})
+			if (this.claseId != 0) {
+				this.toolData.push({
+					name: "在线考试",
+					target: 'exam'
+				})
+				this.toolData.push({
+					name: "学分使用",
+					target: 'shop'
+				})
 			}
-			// if(this.sellerClase != ''){
-			// 	this.toolData.push({name: "班级资料", target: 'clase'})
-			// }
-			// if(this.clientClase != ''){
-			// 	this.toolData.push({name: "查看班级", target: 'clase'})
-			// }
+			if(this.sellerClase != ''){
+				this.toolData.push({name: "班级资料", target: 'clase'})
+			}
+			console.log(this.clientClase)
+			if(this.clientClase != ''){
+				this.toolData.push({name: "查看班级", target: 'clase'})
+			}
 		},
 		methods: {
 			navigate(type) {
@@ -140,15 +180,20 @@
 
 <style scoped>
 	.cu-list.menu-avatar>.cu-item .action {
-		width: 200rpx
+		width: 350rpx
 	}
+
 	.cu-list.menu-avatar>.cu-item {
-		height: 160rpx;
+		height: 80rpx;
 	}
 
 	.cu-list.menu-avatar>.cu-item .content {
 		left: 30rpx;
 		width: calc(100% - 96rpx - 60rpx - 200rpx);
 
+	}
+	
+	.topInfo{
+		height: 140rpx !important;
 	}
 </style>
