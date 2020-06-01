@@ -288,7 +288,6 @@
 				return routes[routes.length - 1].route // 获取当前页面路由，也就是最后一个打开的页面路由
 			},
 			tabSelect(e) {
-				console.log(this.TabCur == 1)
 				this.TabCur = e.currentTarget.dataset.id;
 				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
 			}

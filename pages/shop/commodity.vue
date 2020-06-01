@@ -17,7 +17,7 @@
 
 			<view class="box margin-tb">
 				<view class="cu-bar btn-group ">
-					<button class="cu-btn bg-green shadow-blur lg" :disabled="loading" :loading="loading" @tap="handleOrderClick">立即购买</button>
+					<button class="cu-btn bg-green shadow-blur lg" :disabled="loading" :loading="loading" @tap="handleOrderClick">立即兑换</button>
 				</view>
 			</view>
 			<!-- <view class="cu-bar bg-white tabbar border shop foot">

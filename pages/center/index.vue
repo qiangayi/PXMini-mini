@@ -125,11 +125,11 @@
 				})
 			}
 			if(this.sellerClase != ''){
-				this.toolData.push({name: "班级资料", target: 'clase'})
+				this.toolData.push({name: "班级资料", target: 'claseSeller'})
 			}
 			console.log(this.clientClase)
 			if(this.clientClase != ''){
-				this.toolData.push({name: "查看班级", target: 'clase'})
+				this.toolData.push({name: "查看班级", target: 'claseClient'})
 			}
 		},
 		methods: {
@@ -152,6 +152,12 @@
 						break;
 					case "shop":
 						url = "/pages/shop/index"
+						break;
+					case "claseSeller":
+						url = "/pages/center/clase?type=seller"
+						break;
+					case "claseClient":
+						url = "/pages/center/clase?type=client"
 						break;
 					default:
 						break;
