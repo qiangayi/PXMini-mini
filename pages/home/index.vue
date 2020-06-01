@@ -107,7 +107,8 @@
 				}).then(res => {
 					res = res.data
 					if (res.Success) {
-						this.subData = res.Data
+						this.subData = res.Data.subList						
+						this.$store.dispatch('user/setBannerList', res.Data.bannerList);
 					}
 				})
 			},

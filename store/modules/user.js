@@ -146,7 +146,7 @@ const actions = {
 			sellerClase,
 			clientClase,
 			boutiques,
-			bannerList
+			// bannerList
 		} = data
 		// console.log("boutiques", boutiques)
 		//判断是否为注册用户
@@ -170,7 +170,7 @@ const actions = {
 			commit("SET_SELLERCLASE", sellerClase)
 			commit("SET_CLIENTCLASE", clientClase)
 			commit("SET_BOUTIQUES", boutiques)
-			commit("SET_BANNERLIST", bannerList)
+			// commit("SET_BANNERLIST", bannerList)
 			commit("SET_CLASESELLNAME", claseSellName)
 			// console.log(subjectPic)
 			//用户权限
@@ -197,6 +197,9 @@ const actions = {
 	},
 	setSign({commit}){
 			commit("SET_SIGNED", true)
+	},
+	setBannerList({commit}, bannerList){
+			commit("SET_BANNERLIST", bannerList)
 	}
 }
 
