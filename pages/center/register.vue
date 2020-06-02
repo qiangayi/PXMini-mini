@@ -152,6 +152,7 @@
 				const valid = this.valid()
 				if (valid.success) {
 					this.loading = true
+					this.formData.Gender = this.formData.GenderStr == "男" ? 0 : 1
 					register(this.formData).then(res => {
 						this.loading = false
 						res = res.data
