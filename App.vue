@@ -5,7 +5,7 @@ export default {
 			title: '加载中',
 			mask: true
 		});
-		this.$store.dispatch('user/login');
+		// this.$store.dispatch('user/login');
 		setTimeout(() => {
 			this.$store.dispatch('user/login');
 		// this.$store.dispatch('user/getSign');

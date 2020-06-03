@@ -1,70 +1,82 @@
 <template>
 	<view>
 		<view class="cu-list menu-avatar ">
-		<block v-for="clase in data" :key="clase.ClaseName">
-			<view class="cu-bar solid-bottom">
-				<view class="action">
-					<text class="cuIcon-titles text-green"></text>
-					<text class="text-lg text-bold">{{clase.ClaseName}}</text>
+			<block v-for="clase in data" :key="clase.claseName">
+				<view class="cu-bar solid-bottom">
+					<view class="action">
+						<text class="cuIcon-titles text-green"></text>
+						<text class="text-lg text-bold">{{clase.claseName}}</text>
+					</view>
 				</view>
-			</view>
-			<view class="cu-item" v-for="stu in clase.StuList" :key="stu.Id">
-				<template v-if="type == 'seller'">
-					<view class="content">
-						<text class="text-grey text-xl">{{stu.Name}}</text>
+				<block v-for="video in clase.videoData" :key="stu.Id">
+
+					<view class="cu-bar solid-bottom">
+						<view class="action">
+							<text class="cuIcon-titles text-green"></text>
+							<text class="text-lg text-bold">{{video.videoName + '          ' + video.complete}}</text>
+						</view>
 					</view>
-					<view class="action flex justify-end padding-right-xs">
-						<text class="text-grey text-xl">{{stu.Mobile}}</text>
+					<view class="cu-item" v-for="stu in video.stuData" :key="stu.Id">
+						<template v-if="type == 'seller'">
+
+							<view class="content">
+								<text class="text-grey text-xl">{{stu.Name}}</text>
+							</view>
+							<view class="action flex justify-end padding-right-xs">
+								<text class="text-grey text-xl">{{stu.Mobile}}</text>
+							</view>
+						</template>
+						<template v-if="type == 'client'">
+							<view class="content">
+								<text class="text-grey text-xl">{{stu.Name + " " + stu.Gender + " " + stu.Age + "岁 "  }}</text>
+							</view>
+							<view class="action flex justify-end padding-right-xs">
+								<text class="text-grey text-xl">课程总完成度{{stu.DutyPercent}}</text>
+							</view>
+						</template>
 					</view>
-				</template>
-				<template v-if="type == 'client'">
-					<view class="content">
-						<text class="text-grey text-xl">{{stu.Name + " " + stu.Gender + " " + stu.Age + "岁 "  }}</text>
-					</view>
-					<view class="action flex justify-end padding-right-xs">
-						<text class="text-grey text-xl">课程总完成度{{stu.DutyPercent}}</text>
-					</view>
-				</template>
-			</view>
-		</block>
-	</view>
+				</block>
+			</block>
+		</view>
 	</view>
 </template>
 
 <script>
-	import {clasesInfo} from "@/api/clase.js"
+	import {
+		clasesInfo
+	} from "@/api/clase.js"
 	import {
 		mapGetters,
 		mapState
 	} from 'vuex';
-	export	default{
-		filters:{
-			clientInfo(row){
-				
+	export default {
+		filters: {
+			clientInfo(row) {
+
 			}
 		},
-		data(){
+		data() {
 			return {
 				type: 'client',
 				clases: '',
 				data: []
 			}
-		},		
+		},
 		computed: {
 			...mapGetters(['sellerClase', 'clientClase']),
-			
+
 		},
 		onLoad(option) {
 			this.type = option.type
-			if(this.type== 'seller'){
+			if (this.type == 'seller') {
 				this.clases = this.sellerClase
-			}else{
+			} else {
 				this.clases = this.clientClase
 			}
-				this.initData()
+			this.initData()
 		},
 		methods: {
-			initData(){
+			initData() {
 				var clases = this.clases
 				clasesInfo({
 					clases
@@ -93,8 +105,8 @@
 		width: calc(100% - 96rpx - 60rpx - 200rpx);
 
 	}
-	
-	.topInfo{
+
+	.topInfo {
 		height: 140rpx !important;
 	}
 </style>
