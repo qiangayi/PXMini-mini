@@ -101,8 +101,7 @@
 			uniCollapseItem
 		},
 		computed: {
-			...mapGetters(['sellerClase', 'clientClase']),
-
+			...mapGetters(['sellerClase', 'clientClase'])
 		},
 		onLoad(option) {
 			this.type = option.type

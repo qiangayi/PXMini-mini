@@ -16,6 +16,7 @@ const getters = {
 	bannerList: state => state.user.bannerList,
 	sellerClase: state => state.user.sellerClase,
 	clientClase: state => state.user.clientClase,
+	mobileCode: state => state.user.mobileCode,
 	rapidAuth: state => state.auth.rapidAuth,
 	archiveAuth: state => state.auth.archiveAuth,
 }

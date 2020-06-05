@@ -31,7 +31,9 @@ const getDefaultState = () => {
 		clientClase: '',
 		//精品课程
 		boutiques: '',
-		bannerList: ''
+		bannerList: '',
+		mobileCode: 0
+
 		// avatar: ''
 	}
 }
@@ -86,6 +88,9 @@ const mutations = {
 	},
 	SET_BANNERLIST: (state, bannerList) => {
 		state.bannerList = bannerList
+	},
+	SET_MOBILECODE: (state, mobileCode) => {
+		state.mobileCode = mobileCode
 	}
 }
 
@@ -117,7 +122,9 @@ const actions = {
 			}
 		});
 	},
-	getSign({commit}) {
+	getSign({
+		commit
+	}) {
 		getSign().then(res => {
 			console.log(res)
 		})
@@ -195,11 +202,27 @@ const actions = {
 		commit("SET_SUBJECTNAME", Name)
 		commit("SET_SUBJECTPIC", Icon)
 	},
-	setSign({commit}){
-			commit("SET_SIGNED", true)
+	setSign({
+		commit
+	}) {
+		commit("SET_SIGNED", true)
 	},
-	setBannerList({commit}, bannerList){
-			commit("SET_BANNERLIST", bannerList)
+	setBannerList({
+		commit
+	}, bannerList) {
+		commit("SET_BANNERLIST", bannerList)
+	},
+	setMobileCode({
+		commit,
+		dispatch
+	}, mobileCode) {
+		const code = mobileCode - 1
+		commit("SET_MOBILECODE", code)
+		if (code > 0) {
+			setTimeout(() => {
+				dispatch('setMobileCode', code)
+			}, 1000)
+		}
 	}
 }
 

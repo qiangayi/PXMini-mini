@@ -35,7 +35,7 @@
 			<view class="cu-form-group">
 				<view class="title">手机号码</view>
 				<input placeholder="请输入手机号码" type="number" data-field='Mobile' @input="handleInputChange"></input>
-				<!-- <button class='cu-btn bg-green shadow'>验证码</button> -->
+				<button class='cu-btn bg-green shadow' @tap='handleCode'>{{mobileCode == 0 ? '验证码' : mobileCode}}{{codeSended ? "(已发送)" : ''}}</button>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">是否农村户口</view>
@@ -83,6 +83,7 @@
 		get
 	} from "@/api/clase.js"
 	import {
+		mapGetters,
 		mapActions
 	} from 'vuex';
 	export default {
@@ -97,12 +98,17 @@
 					ClaseId: 0,
 					IdCard: ''
 				},
-				loading: false
+				loading: false,
+				//验证码发送状态
+				codeSended: false
 			}
 		},
 		components: {
 			uploadImg,
 			uploadIdCard
+		},
+		computed: {
+			...mapGetters(['mobileCode'])
 		},
 		onLoad(options) {
 			if (options.claseId) {
@@ -147,6 +153,15 @@
 				this.formData.Name = card.Name
 				this.formData.Age = card.Age
 				this.formData.GenderStr = card.Gender
+			},
+			handleCode(){
+				this.codeSended = false
+				if(this.mobileCode == 0){
+					this.$store.dispatch('user/setMobileCode', 30);
+					setTimeout(() => {
+						this.codeSended = true
+					}, 3000)
+				}
 			},
 			handleSubmit() {
 				const valid = this.valid()
