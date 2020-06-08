@@ -207,6 +207,11 @@ const actions = {
 	}) {
 		commit("SET_SIGNED", true)
 	},
+	setStuScore({
+		commit
+	}, score) {
+		commit("SET_SCORE", score)
+	},
 	setBannerList({
 		commit
 	}, bannerList) {

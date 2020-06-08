@@ -81,6 +81,8 @@
 					this.loading = false
 					uni.hideLoading();
 					res = res.data
+					
+					this.$store.dispatch('user/setStuScore', res.Data);
 					uni.showToast({
 						title: res.Msg,
 						icon: "none",

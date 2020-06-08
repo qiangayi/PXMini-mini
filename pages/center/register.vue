@@ -13,7 +13,8 @@
 			</view>
 			<view class="cu-form-group">
 				<view class="title">年龄</view>
-				<input placeholder="上传身份证自动识别" disabled v-model="formData.Age" type="number" data-field='Age' @input="handleInputChange" name="input"></input>
+				<input placeholder="上传身份证自动识别" disabled v-model="formData.Age" type="number" data-field='Age' @input="handleInputChange"
+				 name="input"></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">性别</view>
@@ -35,7 +36,11 @@
 			<view class="cu-form-group">
 				<view class="title">手机号码</view>
 				<input placeholder="请输入手机号码" type="number" data-field='Mobile' @input="handleInputChange"></input>
-				<button class='cu-btn bg-green shadow' @tap='handleCode'>{{mobileCode == 0 ? '验证码' : mobileCode}}{{codeSended ? "(已发送)" : ''}}</button>
+				<button class='cu-btn bg-green shadow' @tap='handleCode' :disabled='mobileCode!=0 && codeSended'>{{mobileCodeStr}}</button>
+			</view>
+			<view class="cu-form-group">
+				<view class="title">验证码</view>
+				<input placeholder="请输入手机接收到的4位验证码" data-field='InvitedCode' @input="handleInputChange" name="input"></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">是否农村户口</view>
@@ -55,10 +60,6 @@
 				<input placeholder="上传身份证自动识别" disabled v-model='formData.IdCard' data-field='IdCard' @input="handleInputChange"></input>
 				<!-- <button class='cu-btn bg-green shadow'>验证码</button> -->
 			</view>
-			<!-- <view class="cu-form-group">
-				<view class="title">验证码</view>
-				<input placeholder="输入框带个按钮" name="input"></input>
-			</view> -->
 
 			<uploadIdCard :title="'身份证上传'" :limit="2" @idCard='handleIdCard' @upload="handleUpload($event,'IdCardPic')"></uploadIdCard>
 			<uploadImg :title="'户口本上传'" :names="['户主页', '本人页']" :limit="2" @upload="handleUpload($event,'HouseholdRegisterPic')"></uploadImg>
@@ -77,7 +78,9 @@
 	import uploadImg from "@/components/register/uploadImg.vue"
 	import uploadIdCard from "@/components/register/uploadIdCard.vue"
 	import {
-		register
+		register,
+		mobileCode,
+		validCode
 	} from "@/api/user.js"
 	import {
 		get
@@ -95,8 +98,10 @@
 					GenderStr: '',
 					// Gender: 0,
 					IsRural: 1,
+					Mobile: '',
 					ClaseId: 0,
-					IdCard: ''
+					IdCard: '',
+					InvitedCode: ''
 				},
 				loading: false,
 				//验证码发送状态
@@ -108,7 +113,14 @@
 			uploadIdCard
 		},
 		computed: {
-			...mapGetters(['mobileCode'])
+			...mapGetters(['mobileCode']),
+			mobileCodeStr() {
+				if (this.mobileCode == 0) {
+					return this.codeSended ? "再次发送" : '发送验证码'
+				} else {
+					return this.codeSended ? this.mobileCode + '(已发送)' : this.mobileCode
+				}
+			}
 		},
 		onLoad(options) {
 			if (options.claseId) {
@@ -154,13 +166,37 @@
 				this.formData.Age = card.Age
 				this.formData.GenderStr = card.Gender
 			},
-			handleCode(){
-				this.codeSended = false
-				if(this.mobileCode == 0){
+			handleCode() {
+				if (this.formData.Mobile.length == 0) {
+					uni.showToast({
+						title: "请输入手机号码",
+						icon: "none"
+					})
+					return
+				}
+				if (this.formData.Mobile.length != 11) {
+					uni.showToast({
+						title: "手机号码必须为11位",
+						icon: "none"
+					})
+					return
+				}
+				if (this.mobileCode == 0) {
+					this.codeSended = false
 					this.$store.dispatch('user/setMobileCode', 30);
-					setTimeout(() => {
-						this.codeSended = true
-					}, 3000)
+					mobileCode({
+						phone: this.formData.Mobile
+					}).then(res => {
+						// uni.hideLoading()
+						res = res.data
+						if (res.Success) {
+							this.codeSended = true
+							// this.claseInfo = res.Data
+						}
+					})
+					// setTimeout(() => {
+					// 	this.codeSended = true
+					// }, 3000)
 				}
 			},
 			handleSubmit() {
@@ -216,7 +252,7 @@
 					res.msg = '请输入手机号码！'
 					return res
 				}
-				if((FormData.GenderStr == '男' && FormData.Age > 60) || (FormData.GenderStr == '女' && FormData.Age > 55)){
+				if ((FormData.GenderStr == '男' && FormData.Age > 60) || (FormData.GenderStr == '女' && FormData.Age > 55)) {
 					res.msg = '年龄超标，无法报名！'
 					return res
 				}
@@ -232,7 +268,8 @@
 					return res
 				}
 				console.log(FormData.HouseholdRegisterPic)
-				if (!FormData.HouseholdRegisterPic || FormData.HouseholdRegisterPic.split(',').length < 2 || FormData.HouseholdRegisterPic.split(',').some((item) => {
+				if (!FormData.HouseholdRegisterPic || FormData.HouseholdRegisterPic.split(',').length < 2 || FormData.HouseholdRegisterPic
+					.split(',').some((item) => {
 						return item == ''
 					})) {
 					res.msg = '请上传户口本！'

@@ -5,9 +5,19 @@ export function login(data){
 	return request("/wx/OnLogin", "GET", data)
 }
 
-//注册接品
+//注册接口
 export function register(data){
 	return request("/stu/Regeist", "POST", data)
+}
+
+//验证码
+export function mobileCode(data){
+	return request("/code/SendCode", "GET", data)
+}
+
+//验证码验证
+export function validCode(data){
+	return request("/code/ValidCode", "GET", data)
 }
 
 //课程学习
