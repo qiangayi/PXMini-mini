@@ -35,7 +35,7 @@
 			<view class="cu-form-group">
 				<view class="title">手机号码</view>
 				<input placeholder="请输入手机号码" type="number" data-field='Mobile' @input="handleInputChange"></input>
-				<button class='cu-btn bg-green shadow' @tap='handleCode'>{{mobileCode == 0 ? '验证码' : mobileCode}}{{codeSended ? "(已发送)" : ''}}</button>
+				<!-- <button class='cu-btn bg-green shadow' @tap='handleCode'>{{mobileCode == 0 ? '验证码' : mobileCode}}{{codeSended ? "(已发送)" : ''}}</button> -->
 			</view>
 			<view class="cu-form-group">
 				<view class="title">是否农村户口</view>
@@ -80,7 +80,7 @@
 		register
 	} from "@/api/user.js"
 	import {
-		get
+		registerGetClase
 	} from "@/api/clase.js"
 	import {
 		mapGetters,
@@ -122,7 +122,7 @@
 				uni.showLoading({
 					title: "班级加载中"
 				})
-				get({
+				registerGetClase({
 					id
 				}).then(res => {
 					uni.hideLoading()
