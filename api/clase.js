@@ -5,6 +5,10 @@ export function get(data){
 	return request("/clase/Get", "GET", data)
 }
 
+export function registerGetClase(data){
+	return request("/wx/GetClase", "GET", data)
+}
+
 export function clasesInfo(data){
 	return request("/clase/GetClasesInfo", "GET", data)
 }

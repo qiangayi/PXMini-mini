@@ -83,7 +83,7 @@
 		validCode
 	} from "@/api/user.js"
 	import {
-		get
+		registerGetClase
 	} from "@/api/clase.js"
 	import {
 		mapGetters,
@@ -134,7 +134,7 @@
 				uni.showLoading({
 					title: "班级加载中"
 				})
-				get({
+				registerGetClase({
 					id
 				}).then(res => {
 					uni.hideLoading()
