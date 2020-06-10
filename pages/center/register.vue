@@ -11,12 +11,12 @@
 				<view class="title">姓名</view>
 				<input placeholder="上传身份证自动识别" disabled v-model="formData.Name" data-field='Name' @input="handleInputChange" name="input"></input>
 			</view>
-			<view class="cu-form-group">
+			<view class="cu-form-group" :hidden="true">
 				<view class="title">年龄</view>
 				<input placeholder="上传身份证自动识别" disabled v-model="formData.Age" type="number" data-field='Age' @input="handleInputChange"
 				 name="input"></input>
 			</view>
-			<view class="cu-form-group">
+			<view class="cu-form-group" :hidden="true">
 				<view class="title">性别</view>
 				<input placeholder="上传身份证自动识别" disabled v-model="formData.GenderStr" data-field='GenderStr' name="input"></input>
 			</view>
@@ -55,7 +55,7 @@
 					</label>
 				</radio-group>
 			</view>
-			<view class="cu-form-group">
+			<view class="cu-form-group" :hidden="true">
 				<view class="title">身份证号</view>
 				<input placeholder="上传身份证自动识别" disabled v-model='formData.IdCard' data-field='IdCard' @input="handleInputChange"></input>
 				<!-- <button class='cu-btn bg-green shadow'>验证码</button> -->
