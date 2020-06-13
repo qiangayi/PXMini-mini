@@ -167,37 +167,22 @@
 				this.formData.GenderStr = card.Gender
 			},
 			handleCode() {
-				if (this.formData.Mobile.length == 0) {
-					uni.showToast({
-						title: "请输入手机号码",
-						icon: "none"
-					})
-					return
-				}
-				if (this.formData.Mobile.length != 11) {
-					uni.showToast({
-						title: "手机号码必须为11位",
-						icon: "none"
-					})
-					return
-				}
-				if (this.mobileCode == 0) {
-					this.codeSended = false
-					this.$store.dispatch('user/setMobileCode', 30);
-					mobileCode({
-						phone: this.formData.Mobile
-					}).then(res => {
-						// uni.hideLoading()
-						res = res.data
-						if (res.Success) {
-							this.codeSended = true
-							// this.claseInfo = res.Data
+				setTimeout(() => {
+					if(this.validCode()){						
+						if (this.mobileCode == 0) {
+							this.codeSended = false
+							this.$store.dispatch('user/setMobileCode', 30);
+							mobileCode({
+								phone: this.formData.Mobile
+							}).then(res => {
+								res = res.data
+								if (res.Success) {
+									this.codeSended = true
+								}
+							})
 						}
-					})
-					// setTimeout(() => {
-					// 	this.codeSended = true
-					// }, 3000)
-				}
+					}
+				}, 100)
 			},
 			handleSubmit() {
 				const valid = this.valid()
@@ -233,6 +218,23 @@
 						icon: "none"
 					})
 				}
+			},
+			validCode(){				
+				if (this.formData.Mobile.length == 0) {
+					uni.showToast({
+						title: "请输入手机号码",
+						icon: "none"
+					})
+					return false
+				}
+				if (this.formData.Mobile.length != 11) {
+					uni.showToast({
+						title: "手机号码必须为11位",
+						icon: "none"
+					})
+					return false
+				}
+				return true
 			},
 			valid() {
 				const FormData = this.formData

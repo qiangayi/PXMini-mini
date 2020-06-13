@@ -9,7 +9,7 @@
 			<view class="flex align-center justify-center">
 				<video id="myVideo" :src="videoSrc" :initial-time="startTime" :show-play-btn="false" :show-center-play-btn="false"
 				 @play="handlePlay" @ended="handleEnded" @timeupdate="handleTimeUpdate" @waiting="handleWaiting" @loadedmetadata="handleLoadedmetadata"
-				 :enable-progress-gesture="false" :controls="false"></video>
+				 :enable-progress-gesture="false" :show-progress='false' autoplay controls></video>
 			</view>
 			<view class="margin-tb-sm text-center">
 				<button class="cu-btn round line-blue" @tap="playVideo()">播放</button>
@@ -309,4 +309,39 @@
 	#myVideo {
 		width: 100%;
 	}
+		//全屏按钮
+	    video::-webkit-media-controls-fullscreen-button {
+	        display: none;
+	    }
+	    //播放按钮
+	    video::-webkit-media-controls-play-button {
+	        display: none;
+	    }
+	    //进度条
+	    video::-webkit-media-controls-timeline {
+	        display: none;
+	    }
+	    //观看的当前时间
+	    video::-webkit-media-controls-current-time-display{
+	        display: none;            
+	    }
+	    //剩余时间
+	    video::-webkit-media-controls-time-remaining-display {
+	        display: none;            
+	    }
+	    //音量按钮
+	    video::-webkit-media-controls-mute-button {
+	        display: none;            
+	    }
+	    video::-webkit-media-controls-toggle-closed-captions-button {
+	        display: none;            
+	    }
+	    //音量的控制条
+	    video::-webkit-media-controls-volume-slider {
+	        display: none;            
+	    }
+	    //所有控件
+	    video::-webkit-media-controls-enclosure{ 
+	        display: none;
+	    }
 </style>
