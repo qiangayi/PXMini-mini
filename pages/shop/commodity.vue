@@ -7,8 +7,11 @@
 					<text class=" text-red">{{info.Price}}学分</text>
 				</view>
 
-				<view class="solid-bottom text-xl padding-xs">
+				<view class="text-xl padding-xs">
 					<text class="text-black text-bold">{{info.Name}}</text>
+				</view>
+				<view class="text-xl padding-xs solid-bottom">
+					<text class="text-black">已兑换数量：<text class='text-red'>{{info.times}}</text>件</text>
 				</view>
 				<view class="text-df padding-xs">
 					<text class="text-grey">{{info.Directions}}</text>
@@ -81,8 +84,9 @@
 					this.loading = false
 					uni.hideLoading();
 					res = res.data
-					
-					this.$store.dispatch('user/setStuScore', res.Data);
+					if (res.Success) {
+						this.$store.dispatch('user/setStuScore', res.Data);
+					}
 					uni.showToast({
 						title: res.Msg,
 						icon: "none",
