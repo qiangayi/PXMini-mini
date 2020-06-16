@@ -5,6 +5,11 @@ export function login(data){
 	return request("/wx/OnLogin", "GET", data)
 }
 
+//微信登出接口
+export function loginOut(data){
+	return request("/wx/LoginOut", "GET", data)
+}
+
 //注册接口
 export function register(data){
 	return request("/stu/Regeist", "POST", data)

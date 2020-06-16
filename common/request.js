@@ -40,6 +40,7 @@ request.globalRequest = (url, method, data, power) => {
 		dataType: 'json',
 		header: headers
 	}).then(res => {
+		console.log(res)
 		if(res.length == 1){
 				uni.showToast({
 					title: '连接服务器错误！',

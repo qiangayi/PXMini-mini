@@ -158,6 +158,7 @@ const actions = {
 		// console.log("boutiques", boutiques)
 		//判断是否为注册用户
 		if (registered) {
+			console.log(data)
 			//初始化用户信息
 			commit("SET_NAME", name)
 			//type: 0： 班级学员,1销售,2普通学员
@@ -187,6 +188,16 @@ const actions = {
 			dispatch("auth/setArchiveAuth", ArchiveAuth == 1, {
 				root: true
 			})
+		}else{
+			commit("SET_NAME", '')
+			commit("SET_TYPE", '')
+			commit("SET_CLASEID", 0)
+			commit("SET_CLASENAME", '')
+			commit("SET_CLASESTART", '')
+			commit("SET_CLASEEND", '')
+			commit("SET_SUBJECTID", 0)
+			commit("SET_SUBJECTNAME", '')
+			commit("SET_SUBJECTPIC", '')
 		}
 	},
 	initSubjectInfo({

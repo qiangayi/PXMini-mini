@@ -17,7 +17,10 @@
 					</view> -->
 				</view>
 				<template>
-					<view :hidden='!signed' class="action flex justify-end padding-right-xs">
+					<view class="action flex justify-end padding-right-xs">
+						<button class="cu-btn radius bg-gray " @tap="handleLogOutClick(item)">退出</button>
+					</view>
+					<!-- <view :hidden='!signed' class="action flex justify-end padding-right-xs">
 						<button class="cu-btn radius bg-gray " disabled>已签到</button>
 					</view>
 					<view :hidden='signed || loading' class="action flex justify-end padding-right-xs" @tap="handleClick(item)">
@@ -25,7 +28,7 @@
 					</view>
 					<view :hidden='signed || !loading' class="action flex justify-end padding-right-xs">
 						<button class="cu-btn radius bg-green" loading="">签到中</button>
-					</view>
+					</view> -->
 				</template>
 			</view>
 			<template v-if="claseId != 0">
@@ -92,7 +95,8 @@
 
 <script>
 	import {
-		addSign
+		addSign,
+		loginOut
 	} from '@/api/user.js'
 	import {
 		mapGetters,
@@ -109,7 +113,8 @@
 			}
 		},
 		computed: {
-			...mapGetters(['subjectId', 'userName', 'score', 'signed', 'claseId', 'claseStart', 'claseEnd', 'claseName', 'sellerClase', 'clientClase',
+			...mapGetters(['subjectId', 'userName', 'score', 'signed', 'claseId', 'claseStart', 'claseEnd', 'claseName',
+				'sellerClase', 'clientClase',
 				'claseSellName'
 			])
 		},
@@ -124,12 +129,18 @@
 					target: 'shop'
 				})
 			}
-			if(this.sellerClase != ''){
-				this.toolData.push({name: "班级资料", target: 'claseSeller'})
+			if (this.sellerClase != '') {
+				this.toolData.push({
+					name: "班级资料",
+					target: 'claseSeller'
+				})
 			}
 			console.log(this.clientClase)
-			if(this.clientClase != ''){
-				this.toolData.push({name: "查看班级", target: 'claseClient'})
+			if (this.clientClase != '') {
+				this.toolData.push({
+					name: "查看班级",
+					target: 'claseClient'
+				})
 			}
 		},
 		methods: {
@@ -179,6 +190,32 @@
 						success: function() {}
 					})
 				})
+			},
+			handleLogOutClick() {
+				uni.showLoading({
+					title: '正在退出',
+					mask: true
+				});
+				loginOut().then(res => {
+					uni.hideLoading()
+					res = res.data
+					if (res.Success) {
+					
+						uni.navigateTo({
+							url: '/pages/index/index'
+						})
+						uni.showLoading({
+							title: '加载中',
+							mask: true
+						});
+						//初始化用户信息
+						this.$store.dispatch('user/login');
+					}
+					uni.showToast({
+						title: res.Msg,
+						success: function() {}
+					})
+				})
 			}
 		}
 	}
@@ -198,8 +235,8 @@
 		width: calc(100% - 96rpx - 60rpx - 200rpx);
 
 	}
-	
-	.topInfo{
+
+	.topInfo {
 		height: 140rpx !important;
 	}
 </style>

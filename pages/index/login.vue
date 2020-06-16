@@ -50,9 +50,14 @@
 				if (!this.valid()) {
 					return
 				}
+				uni.showLoading({
+					title: '绑定中',
+					mask: true
+				});
 				const data = this.formData
 				if (this.switchD) {
 					tchBingWx(data).then(res => {
+						uni.hideLoading()
 						res = res.data
 						if (res.Success) {
 							this.funBindSuccess(res)
@@ -77,17 +82,22 @@
 					})
 				}
 			},
-			funBindSuccess(res) {
+			funBindSuccess(res) {				
+				uni.showLoading({
+					title: '获取用户数据',
+					mask: true
+				});
 				//初始化用户信息
 				this.$store.dispatch('user/initUserInfo', res.Data);
 				uni.showToast({
 					title: res.Msg,
 					success: function() {
-						setTimeout(() => {
+						uni.hideLoading()
+						// setTimeout(() => {
 							uni.redirectTo({
 								url: '/pages/index/index'
 							});
-						}, 800)
+						// }, 800)
 					}
 				})
 			},
