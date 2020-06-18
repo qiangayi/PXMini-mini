@@ -140,6 +140,20 @@
 					uni.hideLoading()
 					res = res.data
 					if (res.Success) {
+						if(res.Code == 1){
+							uni.showModal({
+							    title: '提示',
+							    content: '班级已经关闭！',
+								showCancel: false,
+							    success: function (res) {
+							        if (res.confirm) {
+										uni.redirectTo({
+											url: '/pages/index/index'
+										});
+							        } 
+							    }
+							});
+						}
 						this.claseInfo = res.Data
 					}
 				})
